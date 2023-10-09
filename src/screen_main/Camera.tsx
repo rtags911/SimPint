@@ -1,22 +1,24 @@
+import { NavigationProp } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
-import { Camera } from "react-native-vision-camera";
+import { Camera ,useCameraDevice} from "react-native-vision-camera";
 
-interface CameraCaptureProps {
+
+interface CamData {
+  navigation: any;
   device: any;
-  ref: any;
-  photo: any;
+  camera: any;
+
 }
 
-const CameraCapture: React.FC<CameraCaptureProps> = ({
+const CameraCapture: React.FC<CamData> = ({
+  navigation,
   device,
-  ref,
-  photo,
+  camera,
 }) => {
   const [photoUri, setPhotoUri] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [imageData, SetImageData] = useState("");
-  const camera = useRef<Camera>(null);
 
   const takePhoto = async () => {
     if (device) {
@@ -49,7 +51,7 @@ const CameraCapture: React.FC<CameraCaptureProps> = ({
       ) : (
         <Camera
           style={StyleSheet.absoluteFill}
-          device={device}
+          device={device!}
           ref={camera}
           isActive={true}
           photo={true}

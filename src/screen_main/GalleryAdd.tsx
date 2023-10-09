@@ -23,12 +23,13 @@ import {
 } from "react-native-vision-camera";
 import * as ImagePicker from "expo-image-picker";
 import CameraCapture from "./Camera";
+import { useNavigation } from "@react-navigation/native";
 
-const GalleryAdd = () => {
+const GalleryAdd = ({ navigation }: { navigation: any }) => {
   const [isCameraModalVisible, setCameraModalVisible] = useState(false);
   const device = useCameraDevice("back");
   const camera = useRef<Camera>(null);
-
+  
   const [isModalVisible, setModalVisible] = React.useState(false);
   const [image, setImage] = useState<string>("default-image-url");
   const { hasPermission, requestPermission } = useCameraPermission();
@@ -62,6 +63,10 @@ const GalleryAdd = () => {
 
   const openCameraModal = () => {
     setCameraModalVisible(true);
+  };
+
+  const openCamera = () => {
+    navigation.navigate("Camera");
   };
 
   return (
@@ -99,7 +104,7 @@ const GalleryAdd = () => {
           <View style={styles.content}>
             <ButtonRowView>
               <View>
-                <TouchButton onPress={openCameraModal}>
+                <TouchButton onPress={openCamera}>
                   <Ionicons name="camera-outline" size={50} />
                 </TouchButton>
                 <TouchButtonTitle>Camera</TouchButtonTitle>
@@ -112,25 +117,6 @@ const GalleryAdd = () => {
                 <TouchButtonTitle>Gallery</TouchButtonTitle>
               </View>
             </ButtonRowView>
-          </View>
-        </Modal>
-
-        <Modal
-          isVisible={isCameraModalVisible}
-          animationIn="slideInUp"
-          animationOut="slideOutDown"
-          onBackdropPress={() => setCameraModalVisible(false)}
-        >
-          <View
-            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-          >
-            <CameraCapture device={device} ref={camera} photo={true} />
-            <TouchableOpacity
-              onPress={() => setCameraModalVisible(false)}
-              style={{ position: "absolute", top: 20, right: 20 }}
-            >
-              <Text>Close</Text>
-            </TouchableOpacity>
           </View>
         </Modal>
       </View>

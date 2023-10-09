@@ -33,48 +33,42 @@ import {
 } from "@react-navigation/stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { Loginnow } from "../../apis/Signup_Users";
-import useAuthStore from "../../apis/AuthStore";
+//import { Loginnow, LoginUser } from "../../apis/Signup_Users";
+import { useSignOut } from "@nhost/react";
 
+
+import useAuthStore from "../../apis/AuthStore";
+import{ useAuthenticated,useSignInEmailPassword} from "@nhost/react";
+import nhost from '../../apis/constNhost';
 const Login = ({ navigation }: { navigation: any }) => {
+    const { signOut } = useSignOut();
   const [email, setTextEmail] = React.useState("");
   const [pass, setTextPass] = React.useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(true);
   const [isChecked, setChecked] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const setAuthToken = useAuthStore((state) => state.setAuthToken);
+const { signInEmailPassword } = useSignInEmailPassword();
 
   const handleLogin = async () => {
     console.log("first", email);
     console.log("fffs", pass);
-
+     
     try {
-      const loginResponse = await Loginnow(email, pass);
+      // const loginResponse = await LoginUser(email, pass);
+       const response = await signInEmailPassword(email,pass);
 
-      if (
-        loginResponse &&
-        loginResponse.status >= 200 &&
-        loginResponse.status < 300
-      ) {
-        // Save the authentication token to AsyncStorage
-        const authToken = loginResponse.data.jwt;
-        await AsyncStorage.setItem("authToken", authToken);
+          if(response.isSuccess){
+              
+            setAuthToken(response.accessToken);
+            console.log(response);
+            navigation.navigate("Home");
+          }
+          else {
+             console.log("error", response.error);
+          }
+       
 
-        setAuthToken(authToken);
-
-        // Display a success alert
-        Alert.alert("Success", "Login Successful", [
-          { text: "OK", onPress: () => navigation.navigate("Home") },
-        ]);
-
-        console.log("Login successful:", loginResponse.data);
-      } else {
-        // Display an error alert
-        alert("Login Failed");
-
-        console.error("Login failed with status:", loginResponse.status);
-        console.error("Response Data:", loginResponse.data);
-      }
     } catch (error) {
       // Display an error alert
       alert("Login Error");
@@ -82,6 +76,10 @@ const Login = ({ navigation }: { navigation: any }) => {
       console.error("Login error:", error);
     }
   };
+
+  
+  
+
 
   return (
     <SafeVi>

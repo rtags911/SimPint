@@ -28,7 +28,7 @@ const Homes = ({props}:any) => {
         tabBarShowLabel: false,
         tabBarStyle: {
           position: "absolute",
-          bottom: 0,
+          bottom: -5,
           padding: 10,
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,

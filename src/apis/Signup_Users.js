@@ -1,9 +1,6 @@
 import axios from "axios";
 import * as Crypto from "expo-crypto";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNhostClient } from "@nhost/react";
-import { NhostClient } from "@nhost/nhost-js";
-
+import nhost from ".././apis/constNhost";
 export const signUp = async (email, mobile, username, password) => {
   const hashedPassword = await Crypto.digestStringAsync(
     Crypto.CryptoDigestAlgorithm.SHA256,
@@ -12,7 +9,7 @@ export const signUp = async (email, mobile, username, password) => {
 
   
   try {
-    const response = await axios.post("http://192.168.31.29:1337/api/users", {
+    const response = await axios.post("http://192.168.1.13:1337/api/users", {
       data: {
         email: email,
         number: mobile,
@@ -35,7 +32,7 @@ export const signUp = async (email, mobile, username, password) => {
 export const Loginnow = async (email, pass) => {
   try {
     const response = await axios.post(
-      "http://192.168.31.29:1337/api/auth/local",
+      "http://192.168.1.13:1337/api/auth/local",
       {
         identifier: email,
         password: pass,
@@ -52,24 +49,21 @@ export const Loginnow = async (email, pass) => {
 
 
 
-// export const LoginUser = async (email, pass) => {
+export const LoginUser = async (email, pass) => {
+  try {
+ const response = await nhost.auth.signIn({
+   email: email,
+   password: pass,
+ });
+    return response;
+     // Return the response data
+  } catch (error) {
+    // Handle any errors (e.g., display an error message)
+    console.error("Login error:", error);
+    throw error; // Re-throw the error so it can be caught higher up
+  }
+};
 
-//   const nhost = NhostClient();
-
-  
-//   try {
-//  const response = await nhost.auth.signIn({
-//    email: email,
-//    password: password,
-//  });
-
-//     return response; // Return the response data
-//   } catch (error) {
-//     // Handle any errors (e.g., display an error message)
-//     console.error("Login error:", error);
-//     throw error; // Re-throw the error so it can be caught higher up
-//   }
-// };
 
 
 

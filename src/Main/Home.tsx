@@ -15,7 +15,7 @@ const Homes = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="welcome-Home"
+      initialRouteName="WelcomeHome"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -29,7 +29,7 @@ const Homes = () => {
       }}
     >
       <Tab.Screen
-        name="welcome-Home"
+        name="WelcomeHome"
         component={PinHome}
         options={{
           title: "Home",

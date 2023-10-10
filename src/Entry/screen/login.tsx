@@ -15,60 +15,53 @@ import {
   TextButton_signUp2,
   Button_signUp2,
 } from "../../screen/style-log/Safe";
-
+import { useAuth } from "./../../apis/useAuthContext";
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Alert, ActivityIndicator } from "react-native";
 import { LoginUser } from "../../apis/Signup_Users";
-import { useSignOut,useAuthInterpreter } from "@nhost/react";
-import useAuthStore from "../../apis/AuthStore";
-import{useSignInEmailPassword} from "@nhost/react";
-import nhost from '../../apis/constNhost';
+
 import { useNavigation } from "@react-navigation/native";
 
 
 
 const Login = () => {
-    const { signOut } = useSignOut();
-    const logout = nhost.auth.signOut();
+  const navigation = useNavigation();
+
+ 
   const [email, setTextEmail] = React.useState("");
-  const [pass, setTextPass] = React.useState("");
+  const [password, setTextPass] = React.useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(true);
   const [isChecked, setChecked] = useState(false);
   const [loading, setIsLoading] = useState(false);
-  const setAuthToken = useAuthStore((state) => state.setAuthToken);
-  const today = useAuthInterpreter();
-const { signInEmailPassword } = useSignInEmailPassword();
 
-const HandleLogout = () => {
-setAuthToken(null);
-signOut();
-nhost.auth.signOut();
-Alert.alert("Success", "Login Successful", [
-  { text: "OK", onPress: () => navigation.navigate("Home") },
-]);
+ const { login } = useAuth();
 
 
-};
+
   const handleLogin = async () => {
     console.log("first", email);
-    console.log("fffs", pass);
-     
+    console.log("fffs", password);
+
     try {
+      const loginResponse = await LoginUser(email, password);
 
-       const loginResponse = await LoginUser(email, pass);
-          
-       //const response = await signInEmailPassword(email,pass);
-        if(loginResponse.error) {
-            console.log(loginResponse.error);
-        }else {
-             setAuthToken(loginResponse.session?.accessToken);
-             console.log(loginResponse);
-             navigation.navigate("Home");
-        }
+      if (loginResponse.error) {
 
-         
+        console.log(loginResponse.error);
 
+      } else {
+        // Assuming loginResponse.session?.accessToken contains the authentication token
+        const authToken = loginResponse.session?.accessToken;
+
+        // Use the login function from the context to set the authentication token
+        login(authToken);
+
+        console.log(loginResponse);
+        // Now, the user is considered logged in with the provided authentication token.
+        // You can navigate to the "Home" screen if needed.
+        navigation.navigate('Main');
+      }
     } catch (error) {
       // Display an error alert
       alert("Login Error");
@@ -77,8 +70,6 @@ Alert.alert("Success", "Login Successful", [
     }
   };
 
-  
-  
 
 
   return (
@@ -111,7 +102,7 @@ Alert.alert("Success", "Login Successful", [
           <Texthold2
             placeholder="Password"
             onChangeText={(newText) => setTextPass(newText)}
-            defaultValue={pass}
+            defaultValue={password}
             secureTextEntry={isPasswordShown}
           ></Texthold2>
 

@@ -2,11 +2,13 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"; 
 import {CameraCapture,ModalCamImage,PinHome,PinProfile} from "../../Main/index"
-const Tabs = createBottomTabNavigator();
-const Stack = createStackNavigator();
+
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 const MainBottomNav:React.FC = () => {
+  const Tabs = createBottomTabNavigator();
+  const Stack = createStackNavigator();
+
     const Gallery = () => {
       return null;
     };
@@ -42,7 +44,7 @@ const MainBottomNav:React.FC = () => {
             />
 
             <Tabs.Screen
-              name="PinProfile"
+              name="Camera"
               component={Gallery}
               options={{
                 tabBarButton: () => <ModalCamImage />,
@@ -50,7 +52,7 @@ const MainBottomNav:React.FC = () => {
             />
 
             <Tabs.Screen
-              name="PinProfile"
+              name="Profile"
               component={PinProfile}
               options={{
                 title: "Profile",

@@ -26,6 +26,7 @@ export type EntryStackParamList = {
 
 
 export type MainBottomParamList = {
+  "Home": undefined;
   HomeScreen: undefined;
 };
 

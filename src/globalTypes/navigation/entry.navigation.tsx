@@ -1,20 +1,22 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import {Login,Signup,Welcome}from "../../Entry/index";
-import useAuthStore from "../../apis/AuthStore";
 import MainBottomNav from "./main.bottmnav";
-
-    const Stack = createStackNavigator();
-  const authToken = useAuthStore((state:any) => state.authToken);
-
-
+import { useAuth } from "../../apis/useAuthContext";
 
 const InitialStack:React.FC = () => {
+   const Stack = createStackNavigator();
+  const { user,authToken, login, logout } = useAuth();
+
+
+
+   const isLoggedIn = !!user;
+
+
         return (
           <Stack.Navigator initialRouteName="Welcome">
-            {authToken ? (
+            {isLoggedIn ? (
               <>
-                //bottom navigation
                 <Stack.Screen
                   name="Home"
                   component={MainBottomNav}

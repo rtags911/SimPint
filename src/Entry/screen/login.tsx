@@ -16,7 +16,7 @@ import {
   Button_signUp2,
 } from "../../screen/style-log/Safe";
 import { useAuth } from "./../../apis/useAuthContext";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Alert, ActivityIndicator } from "react-native";
 import { LoginUser } from "../../apis/Signup_Users";
@@ -37,7 +37,11 @@ const Login = () => {
 
  const { login } = useAuth();
 
-
+ const { authToken } = useAuth();
+ useEffect(() => {
+   // You can safely access `auth` here
+   console.log(authToken);
+ }, []);
 
   const handleLogin = async () => {
     console.log("first", email);

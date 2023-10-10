@@ -6,7 +6,7 @@ import { useAuth } from "../../apis/useAuthContext";
 
 const InitialStack:React.FC = () => {
    const Stack = createStackNavigator();
-  const { user,authToken, login, logout } = useAuth();
+  const { user } = useAuth();
 
 
 

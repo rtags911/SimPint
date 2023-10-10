@@ -4,70 +4,70 @@ import Checkbox from "expo-checkbox";
 import {
   SafeVi,
   TextSafe,
-  SafeVi2,
   Texts,
   View_Holder2,
   Text_Holder,
   View_BtoLog,
-  Button_signUp,
-  TextButton_signUp,
   TextBtoLog,
   ViewsButton,
-  Backbutton,
   View_Pos,
   Texthold2,
   TextButton_signUp2,
   Button_signUp2,
-} from "../style-log/Safe";
+} from "../../screen/style-log/Safe";
 
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Alert, ActivityIndicator } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Sign from "../login_sign/signup";
-import Welcome from "../welcome";
-import Home from "../Home";
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from "@react-navigation/stack";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
-//import { Loginnow, LoginUser } from "../../apis/Signup_Users";
-import { useSignOut } from "@nhost/react";
-
-
+import { LoginUser } from "../../apis/Signup_Users";
+import { useSignOut,useAuthInterpreter } from "@nhost/react";
 import useAuthStore from "../../apis/AuthStore";
-import{ useAuthenticated,useSignInEmailPassword} from "@nhost/react";
+import{useSignInEmailPassword} from "@nhost/react";
 import nhost from '../../apis/constNhost';
-const Login = ({ navigation }: { navigation: any }) => {
+import { useNavigation } from "@react-navigation/native";
+
+
+
+const Login = () => {
     const { signOut } = useSignOut();
+    const logout = nhost.auth.signOut();
   const [email, setTextEmail] = React.useState("");
   const [pass, setTextPass] = React.useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(true);
   const [isChecked, setChecked] = useState(false);
   const [loading, setIsLoading] = useState(false);
   const setAuthToken = useAuthStore((state) => state.setAuthToken);
+  const today = useAuthInterpreter();
 const { signInEmailPassword } = useSignInEmailPassword();
 
+const HandleLogout = () => {
+setAuthToken(null);
+signOut();
+nhost.auth.signOut();
+Alert.alert("Success", "Login Successful", [
+  { text: "OK", onPress: () => navigation.navigate("Home") },
+]);
+
+
+};
   const handleLogin = async () => {
     console.log("first", email);
     console.log("fffs", pass);
      
     try {
-      // const loginResponse = await LoginUser(email, pass);
-       const response = await signInEmailPassword(email,pass);
 
-          if(response.isSuccess){
-              
-            setAuthToken(response.accessToken);
-            console.log(response);
-            navigation.navigate("Home");
-          }
-          else {
-             console.log("error", response.error);
-          }
-       
+       const loginResponse = await LoginUser(email, pass);
+          
+       //const response = await signInEmailPassword(email,pass);
+        if(loginResponse.error) {
+            console.log(loginResponse.error);
+        }else {
+             setAuthToken(loginResponse.session?.accessToken);
+             console.log(loginResponse);
+             navigation.navigate("Home");
+        }
+
+         
 
     } catch (error) {
       // Display an error alert
@@ -170,5 +170,6 @@ const { signInEmailPassword } = useSignInEmailPassword();
     </SafeVi>
   );
 };
+
 
 export default Login;

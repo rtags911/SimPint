@@ -1,15 +1,11 @@
 import * as React from "react";
 import { ScrollView, Text, View, StyleSheet ,Alert} from "react-native";
-import Pin from "../comps/screen_mains/Pin";
-import * as SecureStorage from "expo-secure-store";
-import pins from "../style/pins";
-import MasonryList from "../comps/MasonryList";
+import MasonryList from "../../comps/MasonryList";
 import { NhostClient, NhostProvider } from "@nhost/react";
 import { useState, useEffect } from "react";
-import * as SecureStore from "expo-secure-store";
 import axios from "axios";
-import nhost from "../apis/constNhost"
-function Home1() {
+import nhost from "../../apis/constNhost"
+function PinHome() {
  
 
  const [pins, setPins] = useState([]);
@@ -50,4 +46,4 @@ function Home1() {
 
 }
 
-export default Home1;
+export default PinHome;

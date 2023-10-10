@@ -1,24 +1,17 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import COLORS from "../consts/colors";
+import COLORS from "../../consts/colors";
 import { Image } from "react-native";
-import { css } from "@emotion/react";
+
 import {
   Button,
   Container,
   Buttontext,
-  Button1,
   UnderText,
   UnderView,
-} from "../style/welcomestyle";
-import { useNavigation } from "@react-navigation/native";
-import Login from "./login_sign/login";
-import Signup from "./login_sign/signup";
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from "@react-navigation/stack";
+} from "../../style/welcomestyle";
+
 
 const Welcome = ({ navigation }: { navigation: any }) => {
   return (
@@ -37,7 +30,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 1 */}
         <View style={styles.container1_1}>
           <Image
-            source={require("../../assets/Image/dota2.jpg")}
+            source={require("../../../assets/Image/dota2.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -45,7 +38,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 1 */}
         <View style={styles.container1_2}>
           <Image
-            source={require("../../assets/Image/zelda2.jpg")}
+            source={require("../../../assets/Image/zelda2.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -53,7 +46,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 1 */}
         <View style={styles.container1_3}>
           <Image
-            source={require("../../assets/Image/gibli2.jpg")}
+            source={require("../../../assets/Image/gibli2.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -61,7 +54,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 2-1*/}
         <View style={styles.container2_1}>
           <Image
-            source={require("../../assets/Image/ghibili.jpg")}
+            source={require("../../../assets/Image/ghibili.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -69,7 +62,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 2-2*/}
         <View style={styles.container2_2}>
           <Image
-            source={require("../../assets/Image/Lightbulb.jpg")}
+            source={require("../../../assets/Image/Lightbulb.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -77,7 +70,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 2-3*/}
         <View style={styles.container2_3}>
           <Image
-            source={require("../../assets/Image/meathok.jpg")}
+            source={require("../../../assets/Image/meathok.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -85,7 +78,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 3-1*/}
         <View style={styles.container3_1}>
           <Image
-            source={require("../../assets/Image/whale.jpg")}
+            source={require("../../../assets/Image/whale.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -93,7 +86,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 3-2*/}
         <View style={styles.container3_2}>
           <Image
-            source={require("../../assets/Image/zelda.jpg")}
+            source={require("../../../assets/Image/zelda.jpg")}
             style={styles.image}
           ></Image>
         </View>
@@ -101,7 +94,7 @@ const Welcome = ({ navigation }: { navigation: any }) => {
         {/* Image 3-3*/}
         <View style={styles.container3_3}>
           <Image
-            source={require("../../assets/Image/zelda1.jpg")}
+            source={require("../../../assets/Image/zelda1.jpg")}
             style={styles.image}
           ></Image>
         </View>

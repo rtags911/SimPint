@@ -4,27 +4,18 @@ import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { Camera ,useCameraDevice} from "react-native-vision-camera";
 
 
-interface CamData {
-  navigation: any;
-  device: any;
-  camera: any;
 
-}
-
-const CameraCapture: React.FC<CamData> = ({
-  navigation,
-  device,
-  camera,
-}) => {
+const CameraCapture: React.FC = ()  => {
   const [photoUri, setPhotoUri] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [imageData, SetImageData] = useState("");
-
+  const device = useCameraDevice("back");
+  const camera = useRef<Camera>(null);
+  
   const takePhoto = async () => {
     if (device) {
       if (camera != null) {
         const shoot = await camera.current?.takePhoto();
-
         setPhotoUri(shoot?.path!);
         console.log(shoot?.path);
       }

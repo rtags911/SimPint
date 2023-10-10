@@ -1,35 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  StyleSheet,
   View,
-  PermissionsAndroid,
-  TouchableOpacity,
 } from "react-native";
 import { Button, Text } from "@rneui/base";
 import Modal from "react-native-modal";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import styles from "../screen/style-log/screen-styles";
+import styles from "../../screen/style-log/screen-styles";
 import {
   ButtonRowView,
   TouchButton,
   TouchButtonTitle,
-  ViewContainer,
-} from "../screen/style-log/Gallery-style";
+} from "../../screen/style-log/Gallery-style";
 import {
   Camera,
   useCameraPermission,
-  useCameraDevice,
-  useCameraDevices,
 } from "react-native-vision-camera";
 import * as ImagePicker from "expo-image-picker";
-import CameraCapture from "./Camera";
+
 import { useNavigation } from "@react-navigation/native";
 
-const GalleryAdd = ({ navigation }: { navigation: any }) => {
+
+
+const ModalCamImage = () => {
+
   const [isCameraModalVisible, setCameraModalVisible] = useState(false);
-  const device = useCameraDevice("back");
-  const camera = useRef<Camera>(null);
-  
+  const navNext = useNavigation();
   const [isModalVisible, setModalVisible] = React.useState(false);
   const [image, setImage] = useState<string>("default-image-url");
   const { hasPermission, requestPermission } = useCameraPermission();
@@ -57,17 +52,14 @@ const GalleryAdd = ({ navigation }: { navigation: any }) => {
     }
   };
 
-  if (device == null) {
-    alert("Camera has not have any permission");
-  }
-
   const openCameraModal = () => {
     setCameraModalVisible(true);
   };
 
-  const openCamera = () => {
-    navigation.navigate("Camera");
+  const OpenCamera = () => {
+   
   };
+
 
   return (
     <>
@@ -104,7 +96,7 @@ const GalleryAdd = ({ navigation }: { navigation: any }) => {
           <View style={styles.content}>
             <ButtonRowView>
               <View>
-                <TouchButton onPress={openCamera}>
+                <TouchButton onPress={OpenCamera}>
                   <Ionicons name="camera-outline" size={50} />
                 </TouchButton>
                 <TouchButtonTitle>Camera</TouchButtonTitle>
@@ -124,4 +116,4 @@ const GalleryAdd = ({ navigation }: { navigation: any }) => {
   );
 };
 
-export default GalleryAdd;
+export default ModalCamImage;

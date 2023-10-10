@@ -1,28 +1,21 @@
-import { View, Text, TouchableOpacity, Button } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Home1 from "../screen_main/Fhome";
-import Prof from "../screen_main/FProf";
+import { createStackNavigator } from "@react-navigation/stack";
+import {CameraCapture,ModalCamImage,PinHome,PinProfile} from './index';
+
 import Ionicons from "@expo/vector-icons/Ionicons";
-const Tab = createBottomTabNavigator();
-import { useState } from "react";
 import * as React from "react";
-import  GalleryAdd  from "../screen_main/GalleryAdd";
 
 
-
-
-
-
-const Homes = ({props}:any) => {
+const Homes = () => {
   const Gallery = () => {
     return null;
   };
-
+  const Tab = createBottomTabNavigator();
   const size1 = 35;
 
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="welcome-Home"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -33,13 +26,11 @@ const Homes = ({props}:any) => {
           borderTopRightRadius: 20,
           borderTopLeftRadius: 20,
         },
-        
-      
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home1}
+        name="welcome-Home"
+        component={PinHome}
         options={{
           title: "Home",
           tabBarIcon: ({ focused }) => (
@@ -56,13 +47,13 @@ const Homes = ({props}:any) => {
         name="Picture"
         component={Gallery}
         options={{
-          tabBarButton: () => (<GalleryAdd/>),
+          tabBarButton: () => <ModalCamImage />,
         }}
       ></Tab.Screen>
 
       <Tab.Screen
         name="Profile"
-        component={Prof}
+        component={PinProfile}
         options={{
           title: "prof",
           tabBarIcon: ({ focused }) => (
@@ -74,7 +65,6 @@ const Homes = ({props}:any) => {
           ),
         }}
       ></Tab.Screen>
-      
     </Tab.Navigator>
   );
 };

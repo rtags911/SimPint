@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { Text, TouchableOpacity, Alert } from "react-native";
 import {
   TextSafe,
   SafeVi2,
@@ -10,18 +10,11 @@ import {
   TextButton_signUp,
   TextBtoLog,
   ViewsButton,
-  Backbutton,
-} from "../style-log/Safe";
+  
+} from "../../screen/style-log/Safe";
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Login from "../login_sign/login";
-import Welcome from "../welcome";
-import {
-  createStackNavigator,
-  StackNavigationProp,
-} from "@react-navigation/stack";
 import { signUp } from "../../apis/Signup_Users";
 
 

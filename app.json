@@ -29,7 +29,8 @@
       "infoPlist": {
         "NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera.",
         "NSMicrophoneUsageDescription": "$(PRODUCT_NAME) needs access to your Microphone."
-      }
+      },
+      "bundleIdentifier": "com.anonymous.SimPint1"
     },
     "android": {
       "adaptiveIcon": {

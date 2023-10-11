@@ -12,3 +12,4 @@ export const nhostConfig = {
 
 export const nhost = new NhostClient(nhostConfig);
 
+export default  nhost;

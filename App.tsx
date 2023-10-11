@@ -1,21 +1,31 @@
 
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NhostClient, NhostProvider } from "@nhost/react";
-//import Auth from "./main/auth"
-import { createStackNavigator } from "@react-navigation/stack";
-
 import React, { useEffect, useRef, useState } from "react";
-import nhost from './src/apis/constNhost';
 import {InitialStack,MainBottomNavigator,RootNavigator,SecStackNavigator} from './src/globalTypes/index'
+import { AuthProvider } from "./src/apis/useAuthContext"; 
+import { QueryClient, QueryClientProvider } from "react-query";
+
+
+
+
+
+
 
 export default function App() {
+const queryClient = new QueryClient();  
 
   return (
-    <NhostProvider nhost={nhost}>
-      <NavigationContainer>
-        <InitialStack />
-      </NavigationContainer>
-    </NhostProvider>
+   
+      <QueryClientProvider client={queryClient}>
+        {/* <NhostProvider nhost={nhost}> */}
+          
+          <AuthProvider>
+            <NavigationContainer>
+              <InitialStack />
+            </NavigationContainer>
+          </AuthProvider>
+        {/* </NhostProvider> */}
+      </QueryClientProvider>
+    
   );
 }

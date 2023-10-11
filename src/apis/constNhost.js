@@ -1,20 +1,14 @@
-import { NhostClient, NhostProvider } from "@nhost/react";
-import * as SecureStore from "expo-secure-store";
+import { NhostClient } from "@nhost/react";
 
-const REACT_APP_NHOST_SUBDOMAIN = "gimpimrhxygihhtbpuof";
-const REACT_APP_NHOST_REGION = "eu-central-1";
 
-export const nhost = new NhostClient({
+const REACT_APP_NHOST_SUBDOMAIN = "kwivsrhgpywxqalkwedn";
+const REACT_APP_NHOST_REGION = "ap-southeast-1";
+
+export const nhostConfig = {
   subdomain: REACT_APP_NHOST_SUBDOMAIN,
   region: REACT_APP_NHOST_REGION,
-  clientStorageType: "expo-secure-storage",
-  clientStorage: SecureStore,
-});
+ 
+};
 
-
-export default nhost;
-
-
-
-
+export const nhost = new NhostClient(nhostConfig);
 

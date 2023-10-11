@@ -4,8 +4,10 @@ import { Button, Buttontext } from "../../style/welcomestyle";
 import useAuthStore from "../../apis/AuthStore";
 
 import { useSignOut } from "@nhost/react";
-import nhost from "../../apis/constNhost";
+import {nhost} from "../../apis/constNhost";
 import { useNavigation } from "@react-navigation/native";
+
+
 function PinProfile() {
   const navigation = useNavigation();
     const { signOut } = useSignOut();

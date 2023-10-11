@@ -1,5 +1,5 @@
 import { NavigationProp } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text, Image } from "react-native";
 import { Camera ,useCameraDevice} from "react-native-vision-camera";
 
@@ -9,6 +9,7 @@ const CameraCapture: React.FC = ()  => {
   const [photoUri, setPhotoUri] = useState("");
   const [showPreview, setShowPreview] = useState(false);
   const [imageData, SetImageData] = useState("");
+
   const device = useCameraDevice("back");
   const camera = useRef<Camera>(null);
   

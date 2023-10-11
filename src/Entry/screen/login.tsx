@@ -19,14 +19,16 @@ import { useAuth } from "./../../apis/useAuthContext";
 import React, { useState,useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Alert, ActivityIndicator } from "react-native";
-import { Loginnow} from "../../apis/Signup_Users";
+import { LoginUser} from "../../apis/Signup_Users";
 
 import { useNavigation } from "@react-navigation/native";
+import { AuthMachine, useAuthenticationStatus , useAuthInterpreter} from "@nhost/react";
 
 
 
 const Login = () => {
-
+  const { isAuthenticated, loading, user } = useAuthInterpreter();
+      
   const navigation = useNavigation();
   const [email, setTextEmail] = React.useState("");
   const [password, setTextPass] = React.useState("");
@@ -42,29 +44,40 @@ const Login = () => {
    console.log(authToken);
  }, []);
 
- const handleLogin = async () => {
-   console.log("first", email);
-   console.log("fffs", password);
-   try {
-     const LoginResponse = await Loginnow(email, password);
+  const handleLogin = async () => {
+    console.log("first", email);
+    console.log("fffs", password);
 
-     if (LoginResponse.session?.accessToken) {
-       // Authentication successful
-       alert("Login Successful");
-       login(LoginResponse.session.accessToken);
-       console.log(LoginResponse);
-       navigation.navigate("Home");
-     } else {
-       // Authentication failed, display error message
-       console.log("Login error:", "Authentication failed");
-       alert("Login Error: Authentication failed");
-     }
-   } catch (error) {
-     // Handle network errors or other exceptions
-     console.error("Login error:", error);
-     alert("Login Error: Network error");
-   }
- };
+    try {
+      const response = await LoginUser(email, password);
+      //const response = await signInEmailPassword(email,pass);
+
+      if (response.error) {
+        console.log("error", response.error);
+      } else {
+
+        authToken(response.session?.accessToken);
+        const isAuthenticated = useAuthenticationStatus();
+        
+        if (isAuthenticated) {
+          // User is authenticated, navigate to the "Home" screen
+          navigation.navigate("Home");
+        } else {
+          // Handle the case where the user is not authenticated
+          console.log("User is not authenticated");
+        }
+
+        console.log(response);
+      }
+    } catch (error) {
+      // Display an error alert
+      alert("Login Error");
+
+      console.error("Login error:", error);
+    }
+  };
+
+  
 
 
   return (

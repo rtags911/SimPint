@@ -46,39 +46,39 @@ export const signUp = async (email, mobile, username, password) => {
 
 
 
-export const Loginnow = async (email, password) => {
-  try {
-    const response = await axios.post("http://192.168.1.13:1337/api/auth/local", {
-      identifier: email,
-      password: password,
-    });
-    return response; // Return the response data
-  } catch (error) {
-    // Handle any errors (e.g., display an error message)
-    console.error("Login error:", error);
-    throw error; // Re-throw the error so it can be caught higher up
-
-  }
-};
-
-// //nhost
-// export const LoginUser = async (email, pass) => {
+// export const Loginnow = async (email, password) => {
 //   try {
-//  const response = await nhost.auth.signIn(
-//   {
-//    email: email,
-//    password: pass,
-//  }
-//  );
-
-//     return response;
-//      // Return the response data
+//     const response = await axios.post("http://192.168.1.13:1337/api/auth/local", {
+//       identifier: email,
+//       password: password,
+//     });
+//     return response; // Return the response data
 //   } catch (error) {
 //     // Handle any errors (e.g., display an error message)
 //     console.error("Login error:", error);
 //     throw error; // Re-throw the error so it can be caught higher up
+
 //   }
 // };
+
+// //nhost
+export const LoginUser = async (email, pass) => {
+  try {
+ const response = await nhost.auth.signIn(
+  {
+   email: email,
+   password: pass,
+ }
+ );
+
+    return response;
+     // Return the response data
+  } catch (error) {
+    // Handle any errors (e.g., display an error message)
+    console.error("Login error:", error);
+    throw error; // Re-throw the error so it can be caught higher up
+  }
+};
 
 
 

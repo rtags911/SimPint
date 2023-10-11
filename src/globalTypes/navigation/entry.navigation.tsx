@@ -4,17 +4,19 @@ import {Login,Signup,Welcome}from "../../Entry/index";
 import MainBottomNav from "./main.bottmnav";
 import { useAuth } from "../../apis/useAuthContext";
 
+
 const InitialStack:React.FC = () => {
+
    const Stack = createStackNavigator();
-  const { user } = useAuth();
-
-
+ const { user } = useAuth();
 
    const isLoggedIn = !!user;
-
+   console.log({ isLoggedIn });
+    
 
         return (
           <Stack.Navigator initialRouteName="Welcome">
+
             {isLoggedIn ? (
               <>
                 <Stack.Screen

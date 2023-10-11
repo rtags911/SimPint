@@ -1,64 +1,70 @@
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useQuery } from "react-query";
+import axios from "axios"; // Import Axios
+import * as SecureStore from "expo-secure-store";
 
-  import React, { createContext, useContext, useEffect, useState } from "react";
+const AuthContext = createContext();
 
-  import { useQuery } from "react-query";
-  import { NhostClient } from "@nhost/react";
-  import * as SecureStore from "expo-secure-store";
-  import nhost from "./constNhost";
-  const AuthContext = createContext();
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+}
 
-  export function useAuth() {
-    const context = useContext(AuthContext);
-    if (!context) {
-      throw new Error("useAuth must be used within an AuthProvider");
+export function AuthProvider({ children }) {
+  const [authToken, setAuthToken] = useState(null);
+  const { data: userData, refetch: refetchUser } = useQuery(
+    "user",
+    fetchUserData,
+    {
+      retry: false,
+      enabled: false,
     }
-    return context;
-  }
+  );
 
-  // Define the AuthProvider component
-  export function AuthProvider({ children }) {
-    const [authToken, setAuthToken] = useState(null);
-    const { data: userData, refetch: refetchUser } = useQuery(
-      "user",
-      nhost.auth.getUser,
-      {
-        retry: false,
-        enabled: false,
-      }
-    );
-
-    const login = async (token) => {
-      setAuthToken(token);
-      try {
-        const fetchedUserData = await nhost.auth.getUser();
-        // Update the user state with fetched user data
-        refetchUser();
-      } catch (error) {
-        // Handle error if user data fetch fails
-      }
-    };
-
-    const logout = () => {
-      setAuthToken(null);
-      nhost.auth.signOut();
-    };
-
-    useEffect(() => {
-      nhost.auth.onAuthStateChanged(async (loggedIn) => {
-        if (loggedIn) {
-          try {
-            // Fetch user data if the user is logged in
-            refetchUser();
-          } catch (error) {
-            // Handle error if user data fetch fails
-          }
+  async function fetchUserData() {
+    try {
+      const response = await axios.get(
+        "http://192.168.1.13:1337:1337/api/users/me",
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
         }
-      });
-    }, []);
-
-    return (
-      <AuthContext.Provider value={{ authToken, login, logout, user: userData }}>
-        {children}
-      </AuthContext.Provider>
-    );
+      );
+      return response.data;
+    } catch (error) {
+      // Handle error if user data fetch fails
+      throw error;
+    }
   }
+
+  const login = async (token) => {
+    setAuthToken(token);
+    try {
+      // Update the user state with fetched user data
+      await refetchUser();
+    } catch (error) {
+      // Handle error if user data fetch fails
+    }
+  };
+
+  const logout = () => {
+    setAuthToken(null);
+    // Clear any stored authentication data or tokens
+    // Implement any logout logic specific to your app
+  };
+
+  useEffect(() => {
+    // Add your logic here to check if the user is already authenticated
+    // and set the authToken accordingly when the component mounts.
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ authToken, login, logout, user: userData }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}

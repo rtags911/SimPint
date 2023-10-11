@@ -19,16 +19,15 @@ import { useAuth } from "./../../apis/useAuthContext";
 import React, { useState,useEffect } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable, Alert, ActivityIndicator } from "react-native";
-import { LoginUser } from "../../apis/Signup_Users";
+import { Loginnow} from "../../apis/Signup_Users";
 
 import { useNavigation } from "@react-navigation/native";
 
 
 
 const Login = () => {
-  const navigation = useNavigation();
 
- 
+  const navigation = useNavigation();
   const [email, setTextEmail] = React.useState("");
   const [password, setTextPass] = React.useState("");
   const [isPasswordShown, setIsPasswordShown] = useState(true);
@@ -43,37 +42,29 @@ const Login = () => {
    console.log(authToken);
  }, []);
 
-  const handleLogin = async () => {
-    console.log("first", email);
-    console.log("fffs", password);
+ const handleLogin = async () => {
+   console.log("first", email);
+   console.log("fffs", password);
+   try {
+     const LoginResponse = await Loginnow(email, password);
 
-    try {
-      const loginResponse = await LoginUser(email, password);
-
-      if (loginResponse.error) {
-
-        console.log(loginResponse.error);
-
-      } else {
-        // Assuming loginResponse.session?.accessToken contains the authentication token
-        const authToken = loginResponse.session?.accessToken;
-
-        // Use the login function from the context to set the authentication token
-        login(authToken);
-
-        console.log(loginResponse);
-        // Now, the user is considered logged in with the provided authentication token.
-        // You can navigate to the "Home" screen if needed.
-        navigation.navigate('Main');
-      }
-    } catch (error) {
-      // Display an error alert
-      alert("Login Error");
-
-      console.error("Login error:", error);
-    }
-  };
-
+     if (LoginResponse.session?.accessToken) {
+       // Authentication successful
+       alert("Login Successful");
+       login(LoginResponse.session.accessToken);
+       console.log(LoginResponse);
+       navigation.navigate("Home");
+     } else {
+       // Authentication failed, display error message
+       console.log("Login error:", "Authentication failed");
+       alert("Login Error: Authentication failed");
+     }
+   } catch (error) {
+     // Handle network errors or other exceptions
+     console.error("Login error:", error);
+     alert("Login Error: Network error");
+   }
+ };
 
 
   return (

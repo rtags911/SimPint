@@ -1,27 +1,34 @@
 import * as React from "react";
 import { Text, View ,Alert} from "react-native";
 import { Button, Buttontext } from "../../style/welcomestyle";
-import useAuthStore from "../../apis/AuthStore";
+
 
 import { useSignOut } from "@nhost/react";
-import {nhost} from "../../apis/constNhost";
+import nhost from "../../apis/constNhost";
 import { useNavigation } from "@react-navigation/native";
 
+import useAuthContext from "../../apis/useAuthContext";
 
 function PinProfile() {
   const navigation = useNavigation();
     const { signOut } = useSignOut();
   
-  const setAuthToken = useAuthStore((state:any) => state.setAuthToken);
 
-  const handleLogout = () => {
+
+  const handleLogout = async () => {
     // Clear the authToken when logging out
-    setAuthToken(null);
-    signOut();
-    nhost.auth.signOut();
-    Alert.alert("Success", "Login Successful", [
+     const logout =  await useAuthContext.logout();
+     console.log("logout", logout);
+      if (logout === true) { 
+        
+    Alert.alert("Success", "Logout Successful", [
       { text: "OK", onPress: () => navigation.navigate("Welcome") },
     ]);
+      } else {
+
+        Alert.alert("Success", "logout Failed", )
+      }
+  
   };
 
   return (

@@ -186,10 +186,9 @@ export const TextButton_signUp2 = styled.Text`
 `;
 
 
-
-
-
-
-
-
-    
+export const ErrorText = styled.Text`
+    font-size:20px;
+    align-self:center;
+    color:red;
+    font-weight: bold;
+`;

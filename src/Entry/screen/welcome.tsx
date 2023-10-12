@@ -1,8 +1,10 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import React from "react";
+import  React,{useEffect} from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import COLORS from "../../consts/colors";
 import { Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import nhost from "../../apis/constNhost";
 
 import {
   Button,
@@ -13,7 +15,32 @@ import {
 } from "../../style/welcomestyle";
 
 
-const Welcome = ({ navigation }: { navigation: any }) => {
+
+const Welcome = () => {
+
+
+ useEffect(() => {
+   // You can safely access `auth` her
+    try {
+      const isAuth = nhost.auth.isAuthenticated(); // Check authentication status
+      if (isAuth) {
+        // User is authenticated, navigate to "Home"
+        navigation.navigate("Home");
+      } else {
+        // User is not authenticated, navigate to "Welcome"
+        navigation.navigate("Welcome");
+      }
+    } catch (error) {
+      console.error("Authentication check error:", error);
+    }
+
+
+ }, []);
+
+
+
+
+  const navigation = useNavigation();
   return (
     <LinearGradient
       colors={[COLORS.secondary, COLORS.primary]} // Use the colors prop directly without quotes

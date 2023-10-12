@@ -26,11 +26,13 @@ export type EntryStackParamList = {
 
 
 export type MainBottomParamList = {
-  "Home": undefined;  
+  "Home": undefined; 
   HomeScreen: undefined;
+  Welcome: undefined;
 };
 
 export type SecStackParamList = {
   HomeScreen: undefined;
 };
+
 

@@ -1,24 +1,15 @@
 import axios from "axios";
 import * as Crypto from "expo-crypto";
-//import nhost from ".././apis/constNhost";
+import nhost from ".././apis/constNhost";
 
-import { NhostClient } from "@nhost/react";
+import { NhostClient, useSignInEmailPassword } from "@nhost/react";
 
-const REACT_APP_NHOST_SUBDOMAIN = "kwivsrhgpywxqalkwedn";
-const REACT_APP_NHOST_REGION = "ap-southeast-1";
-
-export const nhostConfig = {
-  subdomain: REACT_APP_NHOST_SUBDOMAIN,
-  region: REACT_APP_NHOST_REGION,
-};
-
-export const nhost = new NhostClient(nhostConfig);
-
-
+  
 
 
 
 export const signUp = async (email, mobile, username, password) => {
+   console.log("Nhost SignIn", { nhost });
   const hashedPassword = await Crypto.digestStringAsync(
     Crypto.CryptoDigestAlgorithm.SHA256,
     password
@@ -64,18 +55,27 @@ export const signUp = async (email, mobile, username, password) => {
 // //nhost
 export const LoginUser = async (email, pass) => {
   try {
- const response = await nhost.auth.signIn(
-  {
-   email: email,
-   password: pass,
- }
- );
+      const check = await nhost.auth.getAuthenticationStatus();
+      const auth = await nhost.auth.isAuthenticatedAsync(email, pass);
+        
+      if ( auth.isAuthenticated) {
+        console.log("TODAY",check.isAuthenticated);
+      }
+      else{
+        
+          console.log("Not Authenticated");
+           const response = await nhost.auth.signIn({
+             email: email,
+             password: pass,
+           });
 
-    return response;
+           return response;
+      }
+
+
      // Return the response data
   } catch (error) {
     // Handle any errors (e.g., display an error message)
-    console.error("Login error:", error);
     throw error; // Re-throw the error so it can be caught higher up
   }
 };

@@ -3,8 +3,9 @@ import {
   ScrollView,
   useWindowDimensions,
   View,
-  Pressable
+  Pressable,
 } from "react-native";
+
 import pins from "../style/pins";
 import { useState } from "react";
 import Pin from "../comps/screen_mains/Pin";
@@ -28,7 +29,8 @@ const MasonryList: React.FC<IMasonryList> = ({ pins }) => {
   }
   
   return (
-    <ScrollView contentContainerStyle={{ width: "150%" }}>
+    <ScrollView contentContainerStyle={{ width: "150%" }}
+    >
       <View style= {styles.container}>
         {Array.from(Array(numColumns)).map((_, colIndex) => (
           <View style={styles.column} key={colIndex}>

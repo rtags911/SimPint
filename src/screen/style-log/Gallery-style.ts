@@ -21,7 +21,7 @@ export const TouchButton = styled.TouchableOpacity`
 `;
 
 export const TouchButtonTitle = styled.Text`
-    font-size:18;
+    font-size:18px;
     font-weight: bold;
     color: black;
     text-align: center;

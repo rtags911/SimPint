@@ -3,21 +3,33 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { Login, Signup, Welcome} from "../../Entry/index";
 import { PinScreen } from "../../Main/index";
 import MainBottomNav from "./main.bottmnav"
-// import {useUserLogin} from '../../apis/context'
-import {useAuthenticationStatus, useNhostClient} from "@nhost/react";
-
+import { useState } from "react";
+ 
+import {useAuthenticationStatus} from "@nhost/react";
+import LottieSplash from "../../Splash/Splash";
 import PinCreateScreen from '../../Main/screen/CreatePin'
-const InitialStack: React.FC = () => {
-  const Stack = createStackNavigator();
-  
-    const {isAuthenticated} = useAuthenticationStatus();
-  // const { user } = useAuth();
 
-  // const isLoggedIn = !!user;
+const InitialStack: React.FC = () => {
   
+  const Stack = createStackNavigator();
+  const { isAuthenticated } = useAuthenticationStatus();
+  const [isLoadingScreen, setLoadingScreen] = useState(true);
+
+  
+    useEffect(() => {
+      // Simulate an asynchronous check of authentication status
+      setTimeout(() => {
+        setLoadingScreen(false); // Set isLoadingScreen to false after the check is done
+      }, 2000); // Adjust the delay time as needed
+    }, []); 
+
   console.log("Entry1", isAuthenticated);
 
-  return (
+  
+
+  return isLoadingScreen ? (
+    <LottieSplash />
+  ) : (
     <Stack.Navigator>
       {isAuthenticated ? (
         <>
@@ -89,8 +101,6 @@ const InitialStack: React.FC = () => {
             component={PinCreateScreen}
             options={{ headerShown: false }}
           />
-
-
         </>
       )}
     </Stack.Navigator>

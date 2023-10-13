@@ -38,6 +38,7 @@ const ModalCamImage = () => {
   }, []);
 
   const pickImageAsync = async () => {
+
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,
       aspect: [4, 3],
@@ -53,6 +54,7 @@ const ModalCamImage = () => {
   };
 
   const openCameraModal = () => {
+
     setCameraModalVisible(true);
   };
 

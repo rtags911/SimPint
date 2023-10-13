@@ -18,9 +18,7 @@ const nhost = useNhostClient();
     const userid = await nhost.auth.getUser()?.id;
     console.log('TBD',userid);
     try {
-    
-
-
+  
 
       const apiUrl =
         "https://kwivsrhgpywxqalkwedn.hasura.ap-southeast-1.nhost.run/api/rest/pins?id="+userid;

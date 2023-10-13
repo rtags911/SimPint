@@ -13,10 +13,11 @@ const PinCreateScreen = ({ route }: any) => {
         <Image
           source={{ uri: image }}
           resizeMode="cover"
-          // Set the desired width and height
+// Set the desired width and height
         />
       )}
       <Text>TODAY</Text>
+      <Text>TODAY1</Text>
     </View>
   );
 };

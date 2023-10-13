@@ -12,8 +12,8 @@ export const MasonColumn = styled.View`
 
 export const Image = styled.Image`
 padding:10px;
-width: 100%;
-height:50%;
+width: 200px;
+height:200px;
 aspect-ratio: 1;
 top:10px;
 border-top-left-radius:20px;
@@ -26,5 +26,6 @@ export const View = styled.View`
   alight-items: center;
   justify-content: center;
   top: -50px;
+  bottom: 100px;
   
 `;

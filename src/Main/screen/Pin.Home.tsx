@@ -4,16 +4,26 @@ import MasonryList from "../../comps/MasonryList";
 import { NhostClient, NhostProvider } from "@nhost/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import nhost from "../../apis/constNhost"
+import { useNhostClient } from "@nhost/react";
+
+
+
 function PinHome() {
  
+const [pins, setPins] = useState([]);
+const nhost = useNhostClient();
 
- const [pins, setPins] = useState([]);
 
   const fetchPins = async () => {
+    const userid = await nhost.auth.getUser()?.id;
+    console.log('TBD',userid);
     try {
+    
+
+
+
       const apiUrl =
-        "https://gimpimrhxygihhtbpuof.hasura.eu-central-1.nhost.run/api/rest/pinsGet";
+        "https://kwivsrhgpywxqalkwedn.hasura.ap-southeast-1.nhost.run/api/rest/pins?id="+userid;
       const response = await axios.get(apiUrl);
       if (response.status === 200) {
         // If the request is successful, set the data in your state (or handle it as needed)

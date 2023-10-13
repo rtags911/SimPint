@@ -13,9 +13,11 @@
         "Ionicons",
         "isloading",
         "kwivsrhgpywxqalkwedn",
+        "Logg",
         "Loggedin",
         "Loggedout",
         "Loginnow",
+        "Masonlist",
         "Nhost",
         "Pressable",
         "Signup",
@@ -24,6 +26,7 @@
         "Texthold",
         "Tommorrow",
         "Userhelper",
+        "userid",
         "zustand"
     ]
 }

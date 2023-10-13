@@ -3,10 +3,12 @@ import {
   ScrollView,
   useWindowDimensions,
   View,
+  Pressable
 } from "react-native";
 import pins from "../style/pins";
 import { useState } from "react";
 import Pin from "../comps/screen_mains/Pin";
+import {Masonlist,MasonColumn} from '../style/PinStyles'
 
 interface IMasonryList {
   pins: {
@@ -24,10 +26,10 @@ const MasonryList: React.FC<IMasonryList> = ({ pins }) => {
   if (!pins || !Array.isArray(pins)) {
     return null; // or display a message indicating no pins are available
   }
-
+  
   return (
     <ScrollView contentContainerStyle={{ width: "150%" }}>
-      <View style={styles.container}>
+      <View style= {styles.container}>
         {Array.from(Array(numColumns)).map((_, colIndex) => (
           <View style={styles.column} key={colIndex}>
             {pins

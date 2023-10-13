@@ -1,7 +1,7 @@
 import * as React from "react";
-import { Text, View, StyleSheet, Image, TouchableOpacity} from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity,Pressable,Alert} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-
+import { useNavigation } from "@react-navigation/native";
 
 interface ImageTitle {
   pins: {
@@ -16,6 +16,9 @@ interface ImageTitle {
 import {useState,useEffect} from 'react';
 
 const Pin:React.FC<ImageTitle> = ({pins}) => {
+
+  const navigation = useNavigation();
+
 const { id,title, images } = pins;
 
   const [ratio, setRatio] = useState(1);
@@ -27,8 +30,19 @@ const { id,title, images } = pins;
       }
     }, [images]);
  
+
+
+    const gotoPress = () => {
+      //  Alert.alert("Checkbox Checked", "The checkbox has been checked");
+      navigation.navigate("PinScreen", {
+        id: pins.id,
+        title: pins.title,
+        images: pins.images,
+      });
+    }
+
   return (
-    <View style={styles.pin}>
+    <Pressable onPress ={gotoPress}style={styles.pin}>
       <View>
         <Image
           style={[styles.image, { aspectRatio: ratio }]}
@@ -45,7 +59,7 @@ const { id,title, images } = pins;
       <Text style={styles.title} numberOfLines={2}>
         {title}
       </Text>
-    </View>
+    </Pressable>
   );
 };
 

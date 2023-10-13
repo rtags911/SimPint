@@ -15,7 +15,6 @@ import {
 import React, { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Pressable } from "react-native";
-import { signUp } from "../../apis/Signup_Users";
 
 
 const Signup = ({ navigation }: { navigation: any }) => {
@@ -26,33 +25,33 @@ const Signup = ({ navigation }: { navigation: any }) => {
   const [isPasswordShown, setIsPasswordShown] = useState(false);
 
   const handleSignUp = async () => {
-    try {
-      const userResponse = await signUp(email, mobile, username, password);
+    // try {
+    //   // const userResponse = await signUp(email, mobile, username, password);
 
-      if (
-        userResponse &&
-        userResponse.status >= 200 &&
-        userResponse.status < 300
-      ) {
-        // Display a success alert
-        Alert.alert("Success", "Account Created Successfully", [
-          { text: "OK", onPress: () => navigation.navigate("Login") },
-        ]);
+    //   if (
+    //     userResponse &&
+    //     userResponse.status >= 200 &&
+    //     userResponse.status < 300
+    //   ) {
+    //     // Display a success alert
+    //     Alert.alert("Success", "Account Created Successfully", [
+    //       { text: "OK", onPress: () => navigation.navigate("Login") },
+    //     ]);
 
-        console.log("User created successfully:", userResponse.data);
-      } else {
-        // Display an error alert
-        alert("Failed to Create Account");
+    //     console.log("User created successfully:", userResponse.data);
+    //   } else {
+    //     // Display an error alert
+    //     alert("Failed to Create Account");
 
-        console.error("User creation failed with status:", userResponse.status);
-        console.error("Response Data:", userResponse.data);
-      }
-    } catch (error) {
-      // Display an error alert
-      alert("Sign-up Error");
+    //     console.error("User creation failed with status:", userResponse.status);
+    //     console.error("Response Data:", userResponse.data);
+    //   }
+    // } catch (error) {
+    //   // Display an error alert
+    //   alert("Sign-up Error");
 
-      console.error("Sign-up error:", error);
-    }
+    //   console.error("Sign-up error:", error);
+    // }
   };
 
 

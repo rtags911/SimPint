@@ -7,7 +7,7 @@ import { useSignOut } from "@nhost/react";
 import nhost from "../../apis/constNhost";
 import { useNavigation } from "@react-navigation/native";
 
-import useAuthContext from "../../apis/useAuthContext";
+
 
 function PinProfile() {
   const navigation = useNavigation();
@@ -17,16 +17,16 @@ function PinProfile() {
 
   const handleLogout = async () => {
     // Clear the authToken when logging out
-     const logout =  await useAuthContext.logout();
+     const logout =  await nhost.auth.signOut();
      console.log("logout", logout);
-      if (logout === true) { 
-        
-    Alert.alert("Success", "Logout Successful", [
-      { text: "OK", onPress: () => navigation.navigate("Welcome") },
-    ]);
+      if (logout.error) { 
+          Alert.alert("Success", "logout Failed");
+    
       } else {
-
-        Alert.alert("Success", "logout Failed", )
+Alert.alert("Success", "Logout Successful", [
+  { text: "OK", onPress: () => navigation.navigate("Welcome") },
+]);
+      
       }
   
   };

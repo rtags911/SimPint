@@ -1,19 +1,22 @@
-import AuthContext from "./useAuthContext";
+// import {useAuth} from "./useAuthContext";
 
-export const checkUserStatus = async () => {
-  const user = await AuthContext.getUser();
-  const isLoggedIn = await AuthContext.isLoggedIn();
-  const getJwt = await AuthContext.getJwt();
+// import React,{useContext} from "react";
+// export const checkUserStatus = async () => {
+//   const useAuthContext = useAuth();
 
-  console.log("user = ", user);
-  console.log("token = ",getJwt);
- console.log("IsLogged in = ", isLoggedIn);
+//   const user = await useAuthContext.getUser;
+//   const userLoggedIn = await useAuthContext.isLoggedIn;
+//   const getJwt = await await useAuthContext.getJwt;
+
+//   console.log("user = ", user);
+//   console.log("token = ",getJwt);
+//  console.log("IsLogged in = ", userLoggedIn);
 
 
-  if (!isLoggedIn && !getJwt) {
-    console.log(user);
-    return getJwt;
-  }
+//   if (!userLoggedIn && !getJwt) {
+//     console.log("UserHelper", user);
+//     return getJwt;
+//   }
 
-  return isLoggedIn;
-};
+//   return userLoggedIn;
+// };

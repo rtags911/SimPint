@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import COLORS from "../../consts/colors";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import nhost from "../../apis/constNhost";
+
 
 import {
   Button,
@@ -13,11 +13,12 @@ import {
   UnderText,
   UnderView,
 } from "../../style/welcomestyle";
+import { useNhostClient } from "@nhost/react";
 
 
 
 const Welcome = () => {
-
+const nhost = useNhostClient();
 
  useEffect(() => {
    // You can safely access `auth` her

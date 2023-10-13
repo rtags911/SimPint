@@ -2,7 +2,7 @@ import { View ,Text} from "react-native";
 
 
 
-const PinCreate = () => {
+const PinCreateScreen = () => {
 return (
 
 <View>
@@ -14,4 +14,4 @@ return (
 
 }
 
-export default PinCreate;
+export default PinCreateScreen;

@@ -22,17 +22,18 @@ import { Pressable, Alert, ActivityIndicator } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {useAuthenticationStatus } from "@nhost/react";
 import { LoginHooks } from "../hooks/LogInHook";
-import nhost from "../../apis/constNhost";
+import { useNhostClient } from "@nhost/react";
+
 
 const Login = () => {
-    
-  const isAuthenticated = useAuthenticationStatus(); 
-  const navigation = useNavigation();
-  const [email1, setEmail] = React.useState("");
-  const [password1, setPassword] = React.useState("");
-  const [isPasswordShown, setIsPasswordShown] = useState(true);
-  const [isChecked, setChecked] = useState(false);
-    
+
+  const nhost = useNhostClient();
+  
+    const navigation = useNavigation();
+    const [email1, setEmail] = React.useState("");
+    const [password1, setPassword] = React.useState("");
+    const [isPasswordShown, setIsPasswordShown] = useState(true);
+    const [isChecked, setChecked] = useState(false);
     const [isLoggingIn, isUserLoggedIn] = useState(false);
     const [isloading, setIsLoading] = useState(false);
     const handleLogin  = LoginHooks();
@@ -41,7 +42,6 @@ const Login = () => {
 
     const handleLoginPress = async () => {
       console.log("LogData",email1,password1);
-
     try {
         await handleLogin(
           email1,
@@ -49,12 +49,11 @@ const Login = () => {
           isUserLoggedIn,
           setIsLoading,
           setError,
-          setEmail,
-          setPassword
         );
 
     }finally{
         isUserLoggedIn(false);
+        
       }
     }
 
@@ -76,44 +75,9 @@ const Login = () => {
       // Handle any errors that may occur during the async operation
       console.error("Error while checking the checkbox:", error);
     }
-  };
-// const handleLogin = async () => {
+  }
 
-  //   console.log("first", email);
-  //   console.log("fffs", password);
-
-  //   try {
-  //     const response = await useUserLogin(email, password);
-       
-  //     //const response = await signInEmailPassword(email,pass);
-
-  //     if (response?.error) {
-  //       console.log("error", response.error);
-  //     } else {
-
-       
-  //       if (!isAuthenticated) {
-          
-  //         // User is authenticated, navigate to the "Home" screen
-  //         navigation.navigate("Home");
-  //       } else {
-  //         // Handle the case where the user is not authenticated
-  //         console.log("User is not authenticated");
-  //       }
-
-  //       console.log(response);
-  //     }
-  //   } catch (error) {
-  //     // Display an error alert
-  //     alert("Login Error");
-
-  //     console.error("Login errorTS:", error);
-  //   }
-  // };
-
-  
-
-
+      
   return (
     <SafeVi>
       {/* Login TITLE CARD AND BACK BUTTON */}
@@ -190,11 +154,15 @@ const Login = () => {
             Remember Me
           </Text>
         </View>
+        
+        {isloading ? ( // Check if loading is in progress
+          <ActivityIndicator size="large" />
+        ) : (
+          <Button_signUp2 onPress={handleLoginPress}>
+            <TextButton_signUp2>Login</TextButton_signUp2>
+          </Button_signUp2>
+        )}
 
-        <Button_signUp2 onPress={handleLoginPress}>
-          <TextButton_signUp2>Login</TextButton_signUp2>
-        </Button_signUp2>
-        {isloading && <ActivityIndicator size="large" />}
         {error ? <ErrorText>{error}</ErrorText> : null}
 
         <View_BtoLog>

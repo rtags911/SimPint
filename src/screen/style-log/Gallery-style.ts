@@ -29,8 +29,9 @@ export const TouchButtonTitle = styled.Text`
 `;
 
 
-export const ViewContainer = styled.View `
-flex:1;
-padding-top:10;
+export const View = styled.View`
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
 
 `;

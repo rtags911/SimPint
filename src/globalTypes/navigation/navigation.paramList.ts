@@ -23,17 +23,14 @@ export type EntryStackParamList = {
   Signup: undefined;
   Welcome: undefined;
   PinScreen: { id: string; title: string; images: string } | undefined;
-  CreatePinScreen:undefined;
+  CreatePinScreen: {Images:string } | undefined;
 };
 
 
 export type MainBottomParamList = {
-  "Home": undefined; 
+  Home: undefined;
   HomeScreen: undefined;
   Welcome: undefined;
-  PinScreen: { id: string; title: string; images: string } | undefined;
-  CreatePinScreen: undefined;
-  
 };
 
 export type SecStackParamList = {

@@ -33,6 +33,7 @@ const InitialStack: React.FC = () => {
     <Stack.Navigator>
       {isAuthenticated ? (
         <>
+        
           <Stack.Screen
             name="Home"
             component={MainBottomNav}
@@ -67,40 +68,41 @@ const InitialStack: React.FC = () => {
             component={PinCreateScreen}
             options={{ headerShown: false }}
           />
+
         </>
       ) : (
         <>
+
           <Stack.Screen
             name="Welcome"
             component={Welcome}
             options={{ headerShown: false }}
           />
+
+
           <Stack.Screen
             name="Login"
             component={Login}
             options={{ headerShown: false }}
           />
+
+
           <Stack.Screen
             name="Signup"
             component={Signup}
             options={{ headerShown: false }}
           />
+
+
           {/* main BOTTOM NAV */}
           <Stack.Screen
             name="Home"
             component={MainBottomNav}
             options={{ headerShown: false }}
           />
-          <Stack.Screen
-            name="PinScreen"
-            component={PinScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="CreatePinScreen"
-            component={PinCreateScreen}
-            options={{ headerShown: false }}
-          />
+        
+
+
         </>
       )}
     </Stack.Navigator>

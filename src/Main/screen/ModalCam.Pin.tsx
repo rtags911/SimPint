@@ -24,7 +24,7 @@ import { useNavigation } from "@react-navigation/native";
 const ModalCamImage = () => {
 
   const [isCameraModalVisible, setCameraModalVisible] = useState(false);
-  const navNext = useNavigation();
+  const navigation = useNavigation();
   const [isModalVisible, setModalVisible] = React.useState(false);
   const [image, setImage] = useState<string>("default-image-url");
   const { hasPermission, requestPermission } = useCameraPermission();
@@ -37,16 +37,20 @@ const ModalCamImage = () => {
     })();
   }, []);
 
+
   const pickImageAsync = async () => {
 
     let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes:ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      quality: 0.5,
     });
 
     if (!result.canceled) {
-      setImage(result.assets[0].uri);
+     const selectedImage = result.assets[0].uri;
+        setImage(selectedImage);
+      navigation.navigate("CreatePinScreen", { Images:selectedImage });
+
       console.log(result.assets[0].uri);
     } else {
       alert("You did not select any image.");

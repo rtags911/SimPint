@@ -11,21 +11,23 @@ export const MasonColumn = styled.View`
 
 
 export const Image = styled.Image`
-padding:10px;
-width: 200px;
-height:200px;
-aspect-ratio: 1;
-top:10px;
-border-top-left-radius:20px;
-border-top-right-radius:20px;
+width: 100%;
 
+aspect-ratio: 1;
 `;
 
-export const View = styled.View`
-  padding: 10px;
+export const View = styled.TouchableOpacity`
+  flex:1;
   alight-items: center;
   justify-content: center;
-  top: -50px;
-  bottom: 100px;
-  
+  padding: 15px;
+`;
+
+export const Text = styled.TextInput`
+ border-width: 1px;
+ bordercolor: "#DCCDCD";
+ padding:5px;
+ width: 100%;
+ border-radius: 5px;
+ margin-top: 5px;
 `;

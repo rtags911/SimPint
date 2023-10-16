@@ -1,14 +1,24 @@
-import { Text} from "react-native";
-import {Image,View} from "../../style/PinStyles"
+import { Alert} from "react-native";
+import {Image,View,Text} from "../../style/PinStyles"
+import React, { useState, useEffect } from "react";
 
 
 
 const PinCreateScreen = ({ route }: any) => {
   
   const image = route.params.Images;
+  const [title,setTitle] = useState("");
+  const [Images,setImages] = useState(null);
+
+
+  const handleAlert = () =>{
+
+    alert("You did not select any image.");
+
+  }
 
   return (
-    <View>
+    <View onPress={handleAlert}>
       {image && (
         <Image
           source={{ uri: image }}
@@ -17,7 +27,6 @@ const PinCreateScreen = ({ route }: any) => {
         />
       )}
       <Text>TODAY</Text>
-      <Text>TODAY1</Text>
     </View>
   );
 };

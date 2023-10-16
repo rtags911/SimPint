@@ -25,9 +25,17 @@ export const View = styled.TouchableOpacity`
 
 export const Text = styled.TextInput`
  border-width: 1px;
- bordercolor: "#DCCDCD";
+ border-color:#DCCDCD;
  padding:5px;
  width: 100%;
  border-radius: 5px;
  margin-top: 5px;
+`;
+
+export const TextAreas = styled.Text`
+  padding: 5px;
+  justify-content: center;
+  text-align: center;
+  font-size:20px;
+  font-weight: bold;
 `;

@@ -55,6 +55,7 @@ const ModalCamImage = () => {
     } else {
       alert("You did not select any image.");
     }
+    
   };
 
   const openCameraModal = () => {

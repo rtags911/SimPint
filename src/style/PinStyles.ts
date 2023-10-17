@@ -120,3 +120,24 @@ export const PinScreenButton = styled.TouchableOpacity`
     left:15px;
     top:10px;
     `;
+
+
+export const PinScreenToProfile = styled.Pressable`
+   flex-direction: row;
+   border-radius: 50px;
+   margin: 10px;
+`;
+
+export const PinScreenToProfileImage = styled.Image`
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+
+`;
+
+export const PinScreenToProfileText = styled.Text`
+color: black;
+font-size: 18px;
+font-weight: bold;
+padding-left:8px
+`;

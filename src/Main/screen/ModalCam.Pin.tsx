@@ -60,14 +60,13 @@ const ModalCamImage = () => {
 
 const CaptureImage = async () => {
   let result = await ImagePicker.launchCameraAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
     allowsEditing: true,
-    aspect: [9, 16],
-    quality: 1,
+    quality: 0.5,
   });
   if (!result.canceled) {
-    
     try {
+
      const selectedImage = result.assets[0].uri;
      setImage(selectedImage);
      navigation.navigate("CreatePinScreen", { Images: selectedImage });

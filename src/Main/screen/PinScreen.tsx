@@ -1,12 +1,22 @@
-import {View,Text,StyleSheet,Image} from 'react-native';
-import { SafeAreaProvider,SafeAreaView } from 'react-native-safe-area-context';
-import React,{useEffect, useState} from 'react';
-import {PinScreenBar,PinScreenText,PinScreens,PinScreenImage,PinScreenButton} from '../../style/PinStyles';
+import { View, Text, StyleSheet, Image } from "react-native";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import React, { useEffect, useState } from "react";
+import {
+  PinScreenBar,
+  PinScreenText,
+  PinScreens,
+  PinScreenImage,
+  PinScreenButton,
+  PinScreenToProfile,
+  PinScreenToProfileImage,
+  PinScreenToProfileText
+} from "../../style/PinStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
-const PinScreen = ({ route }:any) => {
-    const { id, title, images } = route.params; 
+import { useNavigation } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
+
+const PinScreen = ({ route }: any) => {
+  const { id, title, images } = route.params;
 
   const navigation = useNavigation();
   const [ratio, setRatio] = useState(1);
@@ -17,21 +27,23 @@ const PinScreen = ({ route }:any) => {
     }
   }, []);
 
+  const handleBack = () => {
+    navigation.goBack();
+  };
 
-  const handleBack = () =>{
-      navigation.goBack();
-  }
-  
+   const handleToProfile = () => {
+    //  navigation.navigate("ProfileScreen");
+
+    //Include Next to Profile of the user
+    
+   };
+
   const Button = () => (
-  
-  <PinScreenButton onPress={handleBack}>
-  <Ionicons name="ios-chevron-back-outline" size={35} color="white" />
-</PinScreenButton>
+    <PinScreenButton onPress={handleBack}>
+      <Ionicons name="ios-chevron-back-outline" size={35} color="white" />
+    </PinScreenButton>
+  );
 
-);
-
-
-  
   return (
     <PinScreens>
       <ScrollView>
@@ -40,14 +52,20 @@ const PinScreen = ({ route }:any) => {
             source={{ uri: images }}
             style={{ aspectRatio: ratio }}
           />
-          <PinScreenText>{title}</PinScreenText>
           {/*  USE THIS AREA FOR CLICKABLE VIEW TO GO TO PROFILE*/}
+          <PinScreenToProfile onPress={handleToProfile}>
+            <PinScreenToProfileImage
+              source={require("../../../assets/Image/dota2.jpg")}
+            ></PinScreenToProfileImage>
+            <PinScreenToProfileText>{title}</PinScreenToProfileText>
+          </PinScreenToProfile>
+
+          <PinScreenText>{title}</PinScreenText>
         </PinScreenBar>
       </ScrollView>
-      
       {Button()}
     </PinScreens>
   );
-}; 
+};
 
 export default PinScreen;

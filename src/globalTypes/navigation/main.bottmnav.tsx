@@ -14,62 +14,60 @@ const MainBottomNav:React.FC = () => {
     const Gallery = () => {
       return null;
     };
-      const size1 = 35;
+      const size1 = 42;
         return (
-         
-            <Tabs.Navigator
-              initialRouteName="PinHome"
-              screenOptions={{
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarStyle: {
-                  position: "absolute",
-                  bottom: -5,
-                  padding: 10,
-                  borderTopRightRadius: 20,
-                  borderTopLeftRadius: 20,
-                },
+          <Tabs.Navigator
+            initialRouteName="PinHome"
+            screenOptions={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarStyle: {
+                position: "absolute",
+                bottom: -5,
+                padding: 10,
+                borderTopRightRadius: 20,
+                borderTopLeftRadius: 20,
+              },
+            }}
+          >
+            <Tabs.Screen
+              name="PinHome"
+              component={PinHome}
+              options={{
+                title: "Home",
+                tabBarIcon: ({ focused }) => (
+                  <Ionicons
+                    name="home"
+                    size={size1}
+                    style={{ color: focused ? "#e32f45" : "#7423", bottom: 10 }}
+                  />
+                ),
               }}
-            >
-              <Tabs.Screen
-                name="PinHome"
-                component={PinHome}
-                options={{
-                  title: "Home",
-                  tabBarIcon: ({ focused }) => (
-                    <Ionicons
-                      name="home"
-                      size={size1}
-                      style={{ color: focused ? "#e32f45" : "#7423" }}
-                    />
-                  ),
-                }}
-              />
+            />
 
-              <Tabs.Screen
-                name="Camera"
-                component={Gallery}
-                options={{
-                  tabBarButton: () => <ModalCamImage />,
-                }}
-              />
+            <Tabs.Screen
+              name="Camera"
+              component={Gallery}
+              options={{
+                tabBarButton: () => <ModalCamImage />,
+              }}
+            />
 
-              <Tabs.Screen
-                name="Profile"
-                component={PinProfile}
-                options={{
-                  title: "Profile",
-                  tabBarIcon: ({ focused }) => (
-                    <Ionicons
-                      name="person-circle"
-                      size={size1}
-                      style={{ color: focused ? "#e32f45" : "#7423" }}
-                    />
-                  ),
-                }}
-              />
-            </Tabs.Navigator>
-          
+            <Tabs.Screen
+              name="Profile"
+              component={PinProfile}
+              options={{
+                title: "Profile",
+                tabBarIcon: ({ focused }) => (
+                  <Ionicons
+                    name="person-circle"
+                    size={size1}
+                    style={{ color: focused ? "#e32f45" : "#7423", bottom: 10 }}
+                  />
+                ),
+              }}
+            />
+          </Tabs.Navigator>
         );
 
 

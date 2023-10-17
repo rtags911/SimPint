@@ -1,9 +1,8 @@
 import styled  from "styled-components/native";
 import { NavigationContainer } from "@react-navigation/native";
+
 export const Button = styled.TouchableOpacity`
-
       border-radius:30px;
-
       height:70px;
       width: 350px;
     margin-top:30px;

@@ -39,3 +39,48 @@ export const TextAreas = styled.Text`
   font-size:20px;
   font-weight: bold;
 `;
+
+
+
+export const Profile = styled.View`
+   flex: 1;
+    align-Items: center;
+    justify-Content: center;
+`;
+
+export const ProfileImage = styled.Image`
+ width: 200px;
+ height: 200px;
+ border-radius: 125px;
+`;
+
+export const ProfileText  = styled.Text`
+  padding-top: 8px;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+export const ProfileEmailText = styled.Text`
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+
+
+export const Logout = styled.View`
+    justify-Content: flex-end;    
+    align-Items: flex-end;
+    margin-Bottom: 20px;
+    margin-Right: 20px;
+    top: -100px;
+    left: 175px;
+
+`;
+export const LogoutButton = styled.TouchableOpacity`
+    width: 50px;
+    height: 50px;
+
+    border-radius: 25px;
+    justify-Content: center;
+    align-Items: center;
+`;

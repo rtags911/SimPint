@@ -1,8 +1,15 @@
 import * as React from "react";
 import { Text, View ,Alert} from "react-native";
 import { Button, Buttontext } from "../../style/welcomestyle";
-
-
+import {
+  Profile,
+  ProfileImage,
+  ProfileText,
+  Logout,
+  LogoutButton,
+  ProfileEmailText,
+} from "../../style/PinStyles";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { useSignOut } from "@nhost/react";
 import nhost from "../../apis/constNhost";
 import { useNavigation } from "@react-navigation/native";
@@ -32,12 +39,18 @@ Alert.alert("Success", "Logout Successful", [
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Welcome to the Profile Screen</Text>
-      <Button onPress={handleLogout}>
-        <Buttontext>LOGOUT</Buttontext>
-      </Button>
-    </View>
+    <Profile>
+      <Logout>
+        <LogoutButton onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={45} />
+        </LogoutButton>
+      </Logout>
+
+      <ProfileImage source={require("../../../assets/Image/dota2.jpg")} />
+      <ProfileText>UserName</ProfileText>
+      <ProfileEmailText>@Email</ProfileEmailText>
+     
+    </Profile>
   );
 }
 

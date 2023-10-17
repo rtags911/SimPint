@@ -58,15 +58,26 @@ const ModalCamImage = () => {
     
   };
 
-  const openCameraModal = () => {
-
-    setCameraModalVisible(true);
-  };
-
-  const OpenCamera = () => {
-   
-  };
-
+const CaptureImage = async () => {
+  let result = await ImagePicker.launchCameraAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.All,
+    allowsEditing: true,
+    aspect: [9, 16],
+    quality: 1,
+  });
+  if (!result.canceled) {
+    
+    try {
+     const selectedImage = result.assets[0].uri;
+     setImage(selectedImage);
+     navigation.navigate("CreatePinScreen", { Images: selectedImage });
+    
+    } catch (error) {
+      // Handle error if necessary
+      console.error("Error uploading image:", error);
+    }
+  }
+};
 
   return (
     <>
@@ -103,7 +114,7 @@ const ModalCamImage = () => {
           <View style={styles.content}>
             <ButtonRowView>
               <View>
-                <TouchButton onPress={OpenCamera}>
+                <TouchButton onPress={CaptureImage}>
                   <Ionicons name="camera-outline" size={50} />
                 </TouchButton>
                 <TouchButtonTitle>Camera</TouchButtonTitle>

@@ -41,9 +41,9 @@ export const TextAreas = styled.Text`
 `;
 
 
-
+//Pin PROFILE
 export const Profile = styled.View`
-   flex: 1;
+    flex-direction: column;
     align-Items: center;
     justify-Content: center;
 `;
@@ -52,10 +52,11 @@ export const ProfileImage = styled.Image`
  width: 200px;
  height: 200px;
  border-radius: 125px;
+ top:45px;
 `;
 
 export const ProfileText  = styled.Text`
-  padding-top: 8px;
+  padding-top: 50px;
   font-size: 20px;
   font-weight: bold;
 `;
@@ -68,19 +69,54 @@ export const ProfileEmailText = styled.Text`
 
 
 export const Logout = styled.View`
-    justify-Content: flex-end;    
-    align-Items: flex-end;
-    margin-Bottom: 20px;
-    margin-Right: 20px;
-    top: -100px;
-    left: 175px;
-
+  margin-bottom: 20px;
+  margin-right: 20px;
+  top: 15px;
+  left: 175px;
 `;
 export const LogoutButton = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
-
     border-radius: 25px;
     justify-Content: center;
     align-Items: center;
 `;
+
+
+
+//PinScreen 
+export const PinScreens = styled.SafeAreaView`
+color: #000;
+`; 
+export const PinScreenBar = styled.View`
+    height: 100%;
+    backgroundColor: white;
+    borderTopLeftRadius: 50px;
+    borderTopRightRadius: 50px;
+`;
+
+export const PinScreenText = styled.Text`
+    margin: 10px;
+    fontSize: 24px;
+    fontWeight: bold;
+    textAlign: center;
+    lineHeight: 35px; 
+`;
+
+export const PinScreenImage = styled.Image`
+    width: 100%;
+    borderTopLeftRadius: 50px;
+    borderTopRightRadius: 50px;
+`;
+
+export const PinScreenButton = styled.TouchableOpacity`
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    backgroundColor: rgba(0, 0, 0, 0.5);
+    alignItems: center;
+    justifyContent: center;
+    position: absolute;
+    left:15px;
+    top:10px;
+    `;

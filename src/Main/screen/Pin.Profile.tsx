@@ -40,6 +40,7 @@ Alert.alert("Success", "Logout Successful", [
 
   return (
     <Profile>
+      
       <Logout>
         <LogoutButton onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={45} />

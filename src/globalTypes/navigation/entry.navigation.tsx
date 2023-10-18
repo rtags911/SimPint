@@ -20,7 +20,7 @@ const InitialStack: React.FC = () => {
       // Simulate an asynchronous check of authentication status
       setTimeout(() => {
         setLoadingScreen(false); // Set isLoadingScreen to false after the check is done
-      }, 2000); // Adjust the delay time as needed
+      }, 2224); // Adjust the delay time as needed
     }, []); 
 
   console.log("Entry1", isAuthenticated);

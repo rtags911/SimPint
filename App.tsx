@@ -5,7 +5,7 @@ import {InitialStack,MainBottomNavigator,RootNavigator,SecStackNavigator} from '
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NhostProvider } from "@nhost/react";
 import nhost from "./src/apis/constNhost";
-
+import Views from "./src/Main/screen/test"
 
 
 
@@ -13,6 +13,8 @@ import nhost from "./src/apis/constNhost";
 
 export default function App() {
 const queryClient = new QueryClient();  
+
+
 
   return (
    
@@ -22,6 +24,10 @@ const queryClient = new QueryClient();
               <InitialStack />
             </NavigationContainer>
          </NhostProvider> 
+         
+         {/* TEST PROBLEM1 
+         <Views />
+          */}
       </QueryClientProvider>
     
   );

@@ -1,9 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect ,createContext} from 'react';
 import { FetchUserStatus } from "./ApiFetch";
+
+const UserLoginContext = createContext();
 
 
 export const UserLoginProvider = ({ children }) => {
-
 
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -13,10 +14,10 @@ export const UserLoginProvider = ({ children }) => {
     const fetchUserStatus = async () => {
       setIsLoading(true);
       try {
-        const isLoggedIn = await checkUserStatus();
+        const isLoggedIn = await FetchUserStatus();
         setUserLoggedIn(isLoggedIn);
       } catch (e) {
-        console.error(e);
+        console.error("Feetch",e);
         setError(e.toString());
       } finally {
         setIsLoading(false);

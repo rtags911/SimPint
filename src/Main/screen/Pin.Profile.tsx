@@ -13,14 +13,15 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useSignOut } from "@nhost/react";
 import nhost from "../../apis/constNhost";
 import { useNavigation } from "@react-navigation/native";
-
-
+import useAuthContext from "../../apis/useAuthContext";
+import { useMainScreenHooks } from "../Hooks/MainScreens";
 
 function PinProfile() {
   const navigation = useNavigation();
-    const { signOut } = useSignOut();
-  
 
+
+ const { name, email, isLoading,url } = useMainScreenHooks();
+    console.log("profile", url);
 
   const handleLogout = async () => {
     // Clear the authToken when logging out
@@ -40,17 +41,19 @@ Alert.alert("Success", "Logout Successful", [
 
   return (
     <Profile>
-      
       <Logout>
         <LogoutButton onPress={handleLogout}>
           <Ionicons name="log-out-outline" size={45} />
         </LogoutButton>
       </Logout>
+      <ProfileImage
+        source={
+          url ? { uri: url } : require("../../../assets/Image/dota2.jpg")
+        }
+      />
 
-      <ProfileImage source={require("../../../assets/Image/dota2.jpg")} />
-      <ProfileText>UserName</ProfileText>
-      <ProfileEmailText>@Email</ProfileEmailText>
-     
+      <ProfileText>{isLoading ? "Loading..." : name}</ProfileText>
+      <ProfileEmailText>{isLoading ? "Loading..." : email}</ProfileEmailText>
     </Profile>
   );
 }

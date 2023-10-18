@@ -1,33 +1,26 @@
-import { useNhostClient,useAuthenticationStatus} from "@nhost/react";
-import React,{useState,useEffect} from "react";
+import { useNhostClient, useAuthenticationStatus } from "@nhost/react";
+import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-export const FetchUserStatus =() => {
-    const nhost = useNhostClient();
-    
- const { isAuthenticated, isLoading } = useAuthenticationStatus();
-    const [email,setEmail] = useState('');
-    const [name, setName] = useState("");
-    const [loggedin, setLoggedin] = useState('')
-
-    const [] = useState(null);
+import AuthService from './useAuthContext';
+export const FetchUserStatus = async () => {
+  const nhost = useNhostClient();
+  const { isAuthenticated, isLoading } = useAuthenticationStatus();
+  const [loggedin, setLoggedin] = useState(""); // Initialize to null
 
 
-  useEffect(() => {
-    console.log("Fetching", isLoading);
+  const user = await AuthService.getCurrentUser();
+  const isLoggedIn = await AuthService.isLoggedIn();
+  const getJwt = await AuthService.getJwt();
+  // console.log(getJwt);
 
-    if(isAuthenticated){
-    //   AsyncStorage.getItem("email").then((value) => {
-    //     setEmail(email);
-    //   });
-       AsyncStorage.getItem("userLoggedIn").then((value) => {
-         setLoggedin(loggedin);
-       });
-        // AsyncStorage.getItem("Name").then((value) => {
-        //   setName(name);
-        // });
+  if (isLoggedIn && user) {
+    console.log("API FETCH",user);
+    return user;
+  }
+
+    if (isLoggedIn && user) {
+      return user;
     }
-  }, []); 
 
-return loggedin;
-}
+     return loggedin;
+};

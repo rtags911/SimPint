@@ -1,12 +1,21 @@
-// import {useAuth} from "./useAuthContext";
+
 
 // import React,{useContext} from "react";
-// export const checkUserStatus = async () => {
-//   const useAuthContext = useAuth();
+// import { useNhostClient ,useAuthenticated} from "@nhost/react";
 
-//   const user = await useAuthContext.getUser;
-//   const userLoggedIn = await useAuthContext.isLoggedIn;
-//   const getJwt = await await useAuthContext.getJwt;
+
+// export const checkUserStatus = async () => {
+//     const nhost = useNhostClient();
+//     const Checkuser = useAuthenticated();
+//     if(Checkuser.valueOf() === true){
+//     const user = await nhost.auth.getUser()?.id;
+//     const userLoggedIn = 
+//     const getJwt = 
+
+//     }else{
+
+//     }
+  
 
 //   console.log("user = ", user);
 //   console.log("token = ",getJwt);

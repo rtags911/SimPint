@@ -1,38 +1,39 @@
-// import React, { createContext, useState, useContext, useEffect } from "react";
-// import { checkUserStatus } from "../apis/Userhelper.ts";
+import React, { useState, useContext, useEffect ,createContext} from 'react';
+import { FetchUserStatus } from "./ApiFetch";
 
-// const UserLoginContext = createContext();
-// export const UserLoginProvider = ({ children }) => {
+const UserLoginContext = createContext();
 
 
-//   const [userLoggedIn, setUserLoggedIn] = useState(false);
-//   const [isLoading, setIsLoading] = useState(true);
-//   const [error, setError] = useState(null); // Add this line
+export const UserLoginProvider = ({ children }) => {
 
-//   useEffect(() => {
-//     const fetchUserStatus = async () => {
-//       setIsLoading(true);
-//       try {
-//         const isLoggedIn = await checkUserStatus();
-//         setUserLoggedIn(isLoggedIn);
-//       } catch (e) {
-//         console.error(e);
-//         setError(e.toString());
-//       } finally {
-//         setIsLoading(false);
-//       }
-//     };
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null); // Add this line
 
-//     fetchUserStatus();
-//   }, []);
+  useEffect(() => {
+    const fetchUserStatus = async () => {
+      setIsLoading(true);
+      try {
+        const isLoggedIn = await FetchUserStatus();
+        setUserLoggedIn(isLoggedIn);
+      } catch (e) {
+        console.error("Feetch",e);
+        setError(e.toString());
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-//   return (
-//     <UserLoginContext.Provider
-//       value={{ userLoggedIn, setUserLoggedIn, isLoading, error }}
-//     >
-//       {children}
-//     </UserLoginContext.Provider>
-//   );
-// };
+    fetchUserStatus();
+  }, []);
 
-// export const useUserLogin = () => useContext(UserLoginContext);
+  return (
+    <UserLoginContext.Provider
+      value={{ userLoggedIn, setUserLoggedIn, isLoading, error }}
+    >
+      {children}
+    </UserLoginContext.Provider>
+  );
+};
+
+export const useUserLogin = () => useContext(UserLoginContext);

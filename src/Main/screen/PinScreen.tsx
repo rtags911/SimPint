@@ -12,11 +12,14 @@ import {
   PinScreenToProfileText
 } from "../../style/PinStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { useMainScreenHooks } from "../Hooks/MainScreens";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 
 const PinScreen = ({ route }: any) => {
   const { id, title, images } = route.params;
+
+ const { name, email, isLoading, url } = useMainScreenHooks();
 
   const navigation = useNavigation();
   const [ratio, setRatio] = useState(1);
@@ -55,9 +58,9 @@ const PinScreen = ({ route }: any) => {
           {/*  USE THIS AREA FOR CLICKABLE VIEW TO GO TO PROFILE*/}
           <PinScreenToProfile onPress={handleToProfile}>
             <PinScreenToProfileImage
-              source={require("../../../assets/Image/dota2.jpg")}
+              source={{uri:url}}
             ></PinScreenToProfileImage>
-            <PinScreenToProfileText>{title}</PinScreenToProfileText>
+            <PinScreenToProfileText>{name}</PinScreenToProfileText>
           </PinScreenToProfile>
 
           <PinScreenText>{title}</PinScreenText>

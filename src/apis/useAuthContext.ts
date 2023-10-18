@@ -3,10 +3,20 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class AuthService {
   async logout() {
-    await AsyncStorage.removeItem("Name");
-    await AsyncStorage.removeItem("jwt");
-    await AsyncStorage.removeItem("userLoggedIn");
-    await AsyncStorage.removeItem("email");
+    try {
+      // Clear the authToken when logging out
+     
+      // Remove items from AsyncStorage
+      await AsyncStorage.removeItem("Name");
+      await AsyncStorage.removeItem("jwt");
+      await AsyncStorage.removeItem("userLoggedIn");
+      await AsyncStorage.removeItem("email");
+      await AsyncStorage.removeItem("Profile");
+
+      return { success: true, error: null };
+    } catch (error) {
+      return { success: false, error };
+    }
   }
 
   async getCurrentUser() {
@@ -27,12 +37,10 @@ class AuthService {
     return jwt !== null;
   }
 
-  async getProfile(){
+  async getProfile() {
     const UserProfile = await AsyncStorage.getItem("Profile");
     return UserProfile ? JSON.parse(UserProfile) : null;
   }
-
-
 }
 
 

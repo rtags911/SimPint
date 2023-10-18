@@ -15,29 +15,15 @@ import nhost from "../../apis/constNhost";
 import { useNavigation } from "@react-navigation/native";
 import useAuthContext from "../../apis/useAuthContext";
 import { useMainScreenHooks } from "../Hooks/MainScreens";
+import Toast from "react-native-toast-message";
 
 function PinProfile() {
   const navigation = useNavigation();
 
 
- const { name, email, isLoading,url } = useMainScreenHooks();
+ const { name, email, isLoading, url, handleLogout } = useMainScreenHooks();
     console.log("profile", url);
 
-  const handleLogout = async () => {
-    // Clear the authToken when logging out
-     const logout =  await nhost.auth.signOut();
-     console.log("logout", logout);
-      if (logout.error) { 
-          Alert.alert("Success", "logout Failed");
-    
-      } else {
-Alert.alert("Success", "Logout Successful", [
-  { text: "OK", onPress: () => navigation.navigate("Welcome") },
-]);
-      
-      }
-  
-  };
 
   return (
     <Profile>
@@ -54,6 +40,7 @@ Alert.alert("Success", "Logout Successful", [
 
       <ProfileText>{isLoading ? "Loading..." : name}</ProfileText>
       <ProfileEmailText>{isLoading ? "Loading..." : email}</ProfileEmailText>
+        <Toast/>
     </Profile>
   );
 }

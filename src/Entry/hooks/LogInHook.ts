@@ -77,9 +77,16 @@ export const LoginHooks = () => {
           "Profile",
           JSON.stringify(await nhost.auth.getUser()?.avatarUrl)
         );
+
+         await AsyncStorage.setItem(
+           "userID",
+           JSON.stringify(await nhost.auth.getUser()?.id)
+         );
+
+
         // const response = AuthService.login(email1, password1);
         logAsyncStorageValues();
-
+          
         console.log("user = ", response.session?.user);
         // Handle successful login here
         // Set userLoggedIn to true, update user info in context, etc.

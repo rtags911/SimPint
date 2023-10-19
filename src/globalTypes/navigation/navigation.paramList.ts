@@ -16,8 +16,7 @@ export type RootStackParamList = {
   Entry: NavigatorScreenParams<EntryStackParamList> | undefined;
   Main: NavigatorScreenParams<MainBottomParamList> | undefined;
   Second: NavigatorScreenParams<SecStackParamList> | undefined;  
-};
-
+}
 export type EntryStackParamList = {
   Login: undefined;
   Signup: undefined;

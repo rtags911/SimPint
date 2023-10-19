@@ -19,17 +19,18 @@ import { ScrollView } from "react-native-gesture-handler";
 const PinScreen = ({ route }: any) => {
   const { id, title, images } = route.params;
 
- const { name, email, isLoading, url } = useMainScreenHooks();
+ const { name, url } = useMainScreenHooks();
 
   const navigation = useNavigation();
   const [ratio, setRatio] = useState(1);
+  const imageSource = { uri: String(url) || undefined };
 
   useEffect(() => {
     if (images) {
       Image.getSize(images, (width, height) => setRatio(width / height));
     }
   }, []);
-
+  console.log("MainScreen",url)
   const handleBack = () => {
     navigation.goBack();
   };
@@ -58,7 +59,9 @@ const PinScreen = ({ route }: any) => {
           {/*  USE THIS AREA FOR CLICKABLE VIEW TO GO TO PROFILE*/}
           <PinScreenToProfile onPress={handleToProfile}>
             <PinScreenToProfileImage
-              source={{uri:url}}
+              source={{
+                uri: String(url) || "../../../assets/22_Profile.jpg",
+              }}
             ></PinScreenToProfileImage>
             <PinScreenToProfileText>{name}</PinScreenToProfileText>
           </PinScreenToProfile>

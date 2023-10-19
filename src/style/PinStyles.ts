@@ -48,6 +48,14 @@ export const Profile = styled.View`
     justify-Content: center;
 `;
 
+export const Profile2 = styled.View`
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+
+
 export const ProfileImage = styled.Image`
  width: 200px;
  height: 200px;
@@ -69,11 +77,27 @@ export const ProfileEmailText = styled.Text`
 
 
 export const Logout = styled.View`
+  
   margin-bottom: 20px;
   margin-right: 20px;
   top: 15px;
   left: 175px;
 `;
+
+
+export const Logout2 = styled.View`
+  width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    backgroundColor: rgba(0, 0, 0, 0.5);
+    alignItems: center;
+    justifyContent: center;
+    position: absolute;
+    left:15px;
+    top:10px;
+`;
+
+
 export const LogoutButton = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
@@ -81,6 +105,16 @@ export const LogoutButton = styled.TouchableOpacity`
     justify-Content: center;
     align-Items: center;
 `;
+
+export const LogoutButton2 = styled.TouchableOpacity`
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+`;
+
 
 
 

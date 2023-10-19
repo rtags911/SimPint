@@ -8,6 +8,7 @@ interface ImageTitle {
     id: string;
     images: string;
     title: string;
+    userid:string;
   };
   // 👈️ for demo purposes
 }
@@ -17,9 +18,10 @@ import {useState,useEffect} from 'react';
 
 const Pin:React.FC<ImageTitle> = ({pins}) => {
 
+
   const navigation = useNavigation();
 
-const { id,title, images } = pins;
+const { id,title, images ,userid} = pins;
 
   const [ratio, setRatio] = useState(1);
 
@@ -38,6 +40,7 @@ const { id,title, images } = pins;
         id: pins.id,
         title: pins.title,
         images: pins.images,
+        userid:pins.userid,
       });
     }
 

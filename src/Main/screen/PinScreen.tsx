@@ -13,17 +13,22 @@ import {
 } from "../../style/PinStyles";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMainScreenHooks } from "../Hooks/MainScreens";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { fetchUser } from "../../Cache/imageFetch";
 const PinScreen = ({ route }: any) => {
-  const { id, title, images } = route.params;
+  const { title, images,userid} = route.params;
+  console.log("PinScreen",userid)
+ const {url} = useMainScreenHooks();
 
- const { name, url } = useMainScreenHooks();
+ const [AvatarUrl, SetAvatar] = useState<string | null>("");
+ const [name, setName] = useState<string | null>("");
 
   const navigation = useNavigation();
   const [ratio, setRatio] = useState(1);
   const imageSource = { uri: String(url) || undefined };
+const isFocused = useIsFocused();
 
   useEffect(() => {
     if (images) {
@@ -35,9 +40,38 @@ const PinScreen = ({ route }: any) => {
     navigation.goBack();
   };
 
-   const handleToProfile = () => {
-    //  navigation.navigate("ProfileScreen");
 
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Check if the screen is focused
+        if (isFocused) {
+          const userDisplayName = await AsyncStorage.getItem("OnScreeName");
+          const userAvatarUrl = await AsyncStorage.getItem("OnScreenUrl");
+
+          setName(userDisplayName);
+          SetAvatar(userAvatarUrl);
+
+          const response = await fetchUser(userid); // Call the fetchUserPins function with the user ID
+          // Set pins data in the state
+        } else {
+          // Clear AsyncStorage when the screen is not focused (e.g., when going back)
+          await AsyncStorage.removeItem("OnScreeName");
+          await AsyncStorage.removeItem("OnScreenUrl");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchData();
+  }, [userid, isFocused]);
+
+   const handleToProfile = () => {
+     navigation.navigate("UserProfile", {
+       UserId: userid
+     });
     //Include Next to Profile of the user
     
    };
@@ -60,7 +94,7 @@ const PinScreen = ({ route }: any) => {
           <PinScreenToProfile onPress={handleToProfile}>
             <PinScreenToProfileImage
               source={{
-                uri: String(url) || "../../../assets/22_Profile.jpg",
+                uri: AvatarUrl || "../../../assets/22_Profile.jpg",
               }}
             ></PinScreenToProfileImage>
             <PinScreenToProfileText>{name}</PinScreenToProfileText>

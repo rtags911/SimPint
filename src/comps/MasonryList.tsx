@@ -16,11 +16,12 @@ interface IMasonryList {
     id: string;
     image: string;
     title: string;
+    user_id:string;
   }[];
 }
 
 const MasonryList: React.FC<IMasonryList> = ({ pins }) => {
-  console.log(pins);
+  console.log("masonList",pins);
   const width = useWindowDimensions().width;
   const numColumns = Math.ceil(width / 350);
 
@@ -43,7 +44,7 @@ const MasonryList: React.FC<IMasonryList> = ({ pins }) => {
                 ) => (
                   <Pin
                     key={pin.id}
-                    pins={{ id: pin.id, title: pin.title, images: pin.image }} // Change 'pins' to 'pin'
+                    pins={{ id: pin.id, title: pin.title, images: pin.image ,userid:pin.user_id}} // Change 'pins' to 'pin'
                   />
                 )
               )}

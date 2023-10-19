@@ -10,7 +10,8 @@ export default function LottieSplash():JSX.Element  {
   return (
     <View
       style={{
-        flex: 1,
+        flex: 
+        1,
         alignItems: "center",
         justifyContent: "center",
         margin: 100,

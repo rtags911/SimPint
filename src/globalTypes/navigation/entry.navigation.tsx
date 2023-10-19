@@ -8,6 +8,7 @@ import { useUserLogin } from "../../apis/context";
 import { useAuthenticated, } from "@nhost/react";
 import PinCreateScreen from "../../Main/screen/CreatePin";
 import LottieSplash from "../../Splash/Splash";
+import ProfileUser from "../../Main/screen/Pin.ProfileUser";
 
 const InitialStack: React.FC = () => {
   const Stack = createStackNavigator();
@@ -36,7 +37,9 @@ const InitialStack: React.FC = () => {
 
   
 
-  return isLoadingScreen? (<LottieSplash/>):(
+  return isLoadingScreen ? (
+    <LottieSplash />
+  ) : (
     <Stack.Navigator>
       {test ? (
         <>
@@ -72,6 +75,11 @@ const InitialStack: React.FC = () => {
           <Stack.Screen
             name="CreatePinScreen"
             component={PinCreateScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="UserProfile"
+            component={ProfileUser}
             options={{ headerShown: false }}
           />
         </>

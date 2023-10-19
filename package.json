@@ -39,7 +39,7 @@
     "form-data": "^4.0.0",
     "formdata-node": "^5.0.1",
     "graphql": "^15.8.0",
-    "lottie-react-native": "^6.3.1",
+    "lottie-react-native": "5.1.6",
     "node-fetch": "^3.3.2",
     "react": "18.2.0",
     "react-button": "^1.2.1",

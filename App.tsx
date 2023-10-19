@@ -27,5 +27,7 @@ export default function App() {
     </NhostProvider>
 
     // <Views/>
+
+    //<LottieSplash/>
   );
 }

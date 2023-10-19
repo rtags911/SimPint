@@ -5,14 +5,15 @@ class AuthService {
   async logout() {
     try {
       // Clear the authToken when logging out
-     
+
       // Remove items from AsyncStorage
       await AsyncStorage.removeItem("Name");
       await AsyncStorage.removeItem("jwt");
       await AsyncStorage.removeItem("userLoggedIn");
       await AsyncStorage.removeItem("email");
       await AsyncStorage.removeItem("Profile");
-
+      await AsyncStorage.removeItem("Profile");
+      await AsyncStorage.removeItem("userID");
       return { success: true, error: null };
     } catch (error) {
       return { success: false, error };
@@ -28,6 +29,13 @@ class AuthService {
     const emailUser = await AsyncStorage.getItem("email");
     return emailUser;
   }
+
+  async getUserId() {
+    const userid = await AsyncStorage.getItem("userId");
+    return userid;
+  }
+
+
 
   async getJwt() {
     return await AsyncStorage.getItem("jwt");

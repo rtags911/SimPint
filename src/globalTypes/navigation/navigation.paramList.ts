@@ -16,14 +16,14 @@ export type RootStackParamList = {
   Entry: NavigatorScreenParams<EntryStackParamList> | undefined;
   Main: NavigatorScreenParams<MainBottomParamList> | undefined;
   Second: NavigatorScreenParams<SecStackParamList> | undefined;  
-};
-
+}
 export type EntryStackParamList = {
   Login: undefined;
   Signup: undefined;
   Welcome: undefined;
-  PinScreen: { id: string; title: string; images: string } | undefined;
+  PinScreen: { id: string; title: string; images: string ,userid:string} | undefined;
   CreatePinScreen: {Images:string } | undefined;
+  UserProfile: {UserId: string} | undefined;
 };
 
 

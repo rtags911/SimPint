@@ -28,6 +28,7 @@ const PinScreen = ({ route }: any) => {
   const navigation = useNavigation();
   const [ratio, setRatio] = useState(1);
   const imageSource = { uri: String(url) || undefined };
+console.log("PinScreen", name,AvatarUrl);
 const isFocused = useIsFocused();
 
   useEffect(() => {
@@ -47,19 +48,17 @@ const isFocused = useIsFocused();
       try {
         // Check if the screen is focused
         if (isFocused) {
-          const userDisplayName = await AsyncStorage.getItem("OnScreeName");
-          const userAvatarUrl = await AsyncStorage.getItem("OnScreenUrl");
+          // const userDisplayName = await AsyncStorage.getItem("OnScreeName");
+          // const userAvatarUrl = await AsyncStorage.getItem("OnScreenUrl");
 
-          setName(userDisplayName);
-          SetAvatar(userAvatarUrl);
-
+          // setName(userDisplayName);
+          // SetAvatar(userAvatarUrl);
           const response = await fetchUser(userid); // Call the fetchUserPins function with the user ID
           // Set pins data in the state
-        } else {
-          // Clear AsyncStorage when the screen is not focused (e.g., when going back)
-          await AsyncStorage.removeItem("OnScreeName");
-          await AsyncStorage.removeItem("OnScreenUrl");
-        }
+          setName(response.user.displayName)
+          SetAvatar(response.user.avatarUrl)
+          console.log("Pinscreens", response);
+        } 
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -81,6 +80,7 @@ const isFocused = useIsFocused();
       <Ionicons name="ios-chevron-back-outline" size={35} color="white" />
     </PinScreenButton>
   );
+
 
   return (
     <PinScreens>

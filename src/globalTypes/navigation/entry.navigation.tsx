@@ -9,6 +9,9 @@ import { useAuthenticated, } from "@nhost/react";
 import PinCreateScreen from "../../Main/screen/CreatePin";
 import LottieSplash from "../../Splash/Splash";
 import ProfileUser from "../../Main/screen/Pin.ProfileUser";
+import CreateScreen from "../../Main/screenTopTab/Create";
+import PinnedScreen from "../../Main/screenTopTab/Pinned";
+
 
 const InitialStack: React.FC = () => {
   const Stack = createStackNavigator();
@@ -82,6 +85,12 @@ const InitialStack: React.FC = () => {
             component={ProfileUser}
             options={{ headerShown: false }}
           />
+          <Stack.Screen
+            name="Creates"
+            component={CreateScreen}
+            options={{ headerShown: false }}
+          />
+         
         </>
       ) : (
         <>

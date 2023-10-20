@@ -7,7 +7,7 @@ declare global {
       extends RootStackParamList,
         EntryStackParamList,
         MainBottomParamList,
-        SecStackParamList {}
+        ThirdTopParamList {}
   }
 }
 
@@ -15,15 +15,19 @@ declare global {
 export type RootStackParamList = {
   Entry: NavigatorScreenParams<EntryStackParamList> | undefined;
   Main: NavigatorScreenParams<MainBottomParamList> | undefined;
-  Second: NavigatorScreenParams<SecStackParamList> | undefined;  
+  Third:NavigatorScreenParams<ThirdTopParamList> | undefined;
+ 
 }
 export type EntryStackParamList = {
   Login: undefined;
   Signup: undefined;
   Welcome: undefined;
-  PinScreen: { id: string; title: string; images: string ,userid:string} | undefined;
-  CreatePinScreen: {Images:string } | undefined;
-  UserProfile: {UserId: string} | undefined;
+  PinScreen:
+    | { id: string; title: string; images: string; userid: string }
+    | undefined;
+  CreatePinScreen: { Images: string } | undefined;
+  UserProfile: { UserId: string } | undefined;
+  TopNav: undefined;
 };
 
 
@@ -33,7 +37,11 @@ export type MainBottomParamList = {
   Welcome: undefined;
 };
 
-export type SecStackParamList = {
-  HomeScreen: undefined;
+
+
+export type ThirdTopParamList = {
+  Create: undefined;
+  Pinned: undefined;
 };
+
 

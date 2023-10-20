@@ -1,146 +1,118 @@
-import { Alert,Platform} from "react-native";
-import {Image,View,Text,TextAreas} from "../../style/PinStyles"
+import { Alert, Platform } from "react-native";
+import { Image, View, Text, TextAreas } from "../../style/PinStyles";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import * as ImagePicker from "expo-image-picker";
 
 import * as FileSystem from "expo-file-system";
-import { useNhostClient,useFileUpload } from "@nhost/react";
-
-
+import { useNhostClient, useFileUpload } from "@nhost/react";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../apis/Firebaseconfig";
+import useAuthContext from "../../apis/useAuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const PinCreateScreen = ({ route }: any) => {
-  const nhost = useNhostClient();
+  const navigation = useNavigation();
   const image = route.params.Images;
-  const [title,setTitle] = useState("");
-  const [Images,setImages] = useState(image);
-  const [imageUri,setImageUri] = useState("");
-  const [file,setfile] = useState<File | null>();
- const { isError, isUploaded, upload } = useFileUpload();
 
+  const [title, setTitle] = useState("");
+  const [Images, setImages] = useState(image);
 
- const uploadImageFile = async () => {
+  const [imageUrL, setImageUrl] = useState("");
+  const [file, setfile] = useState<File | null>();
+  const { isError, isUploaded, upload } = useFileUpload();
 
-  const response = axios.post(
-    "https://kwivsrhgpywxqalkwedn.hasura.ap-southeast-1.nhost.run/api/rest/files",{
+  const imagefile = async () => {
+    // Assuming that 'image' is defined somewhere in your code
+    const response = await fetch(image);
+    const blob = await response.blob();
 
+    // You need to import necessary functions and initialize Firebase storage
+    // Make sure to initialize Firebase Storage
+    const storageref = ref(storage, "Images/" + new Date().getTime());
+    const uploadTask = uploadBytesResumable(storageref, blob);
 
-    }
-
-  );
-  
-
- };
-
-  
-
-
-const imagefile = async () => {
-
-  
-  fetch(Images)
-    .then((response) => response.blob())
-    .then(async (blob) => {
-      // Now 'blob' contains the image data, and you can use it as needed
-      // For example, you can create a Blob object for the image
-      const imageBlob = new Blob([blob], { type: "image/jpeg" });
-
-      // You can also create a File object (for simulating a file input) with additional information
-      const imageFile = new File([blob], "image.jpg", { type: "image/jpeg" });
-        setfile(imageFile);
-      
-      // Upload the image using nhost.storage.upload
-      // const response = await nhost.storage.upload({
-      //   file: imageFile, // Use the created File object
-      //   name: "image.jpg", // Set the desired name for the file
-      // });I
-
-        console.log({ imageFile });
-      
-      
-
-      const today =  await upload({
-        file: imageFile, // Use the created File object
-        name: "image.jpg", // Set the desired name for the file
-      });
-
-      console.log("C",{ today });
-
-           
-        console.log("If error ", isError);
-
-        console.log("NOT ERROR ", isUploaded);
-
-
-      // if (response.error) {
-      //   Alert.alert("ERROR", response.error.message);
-      // } else {
-      //   Alert.alert("OK");
-      // }
-
-      // Now, 'response' contains the information about the uploaded file
-
-      return imageFile
-    })
-    .catch((error) => {
-      console.error("Error fetching or uploading the image:", error);
-    });
-
-}
-  const HandleImageUpload = async () => {
-        await imagefile();
-
-      console.log({file});
-     
-    
-  }
-
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        console.log("Upload is " + progress + "% done");
+      },
+      (error) => {
+        // Handle any errors that occur during the upload.
+        console.error("Error uploading image: ", error);
+      },
+      () => {
+        // Upload completed successfully, get the download URL
+        getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+          console.log("Completed", downloadURL);
+          // Assuming setImageUrl is a function to set the image URL
+          setImageUrl(downloadURL);
+        });
+      }
+    );
+  };
 
   const handleUpload = async () => {
-    const userid = await nhost.auth.getUser()?.id;
-     
-          
+    const ids = await useAuthContext.getUserId();
+    await imagefile();
 
-          console.log("test", title, " + user ID = ", userid, " + Url = ", imageUri);
+    console.log("test", title, " + user ID = ", ids, " + Url = ", imageUrL);
 
-          const apIUrl =
-            "https://kwivsrhgpywxqalkwedn.hasura.ap-southeast-1.nhost.run/api/rest/upload?title=" +
-            title +
-            "&userid=" +
-            userid +
-            "&image=" +
-            image;
+    const apIUrl =
+      "https://kwivsrhgpywxqalkwedn.hasura.ap-southeast-1.nhost.run/api/rest/upload?title=&image=&userid=";
 
-          const response = await axios.post(apIUrl);
-          if (response.statusText === "success") {
-            Alert.alert("Pin Created Successfully");
-          } else {
-            Alert.alert("Pin Created Failed To Create");
-            console.log(response);
-          }
-          
+    const response = await axios.post(apIUrl);
+    if (response.statusText === "OK") {
+      Alert.alert("Pin Created Successfully");
+      navigation.navigate("Home");
+    } else {
+      Alert.alert("Pin Created Failed To Create");
+      console.log(response);
+    }
   };
+
+
+  const handleUploads = async () => {
+    try {
+      const ids = await useAuthContext.getUserId();
+      await imagefile();
+
+      console.log("test", title, " + user ID = ", ids, " + Url = ", imageUrL);
+
+      const postData = {
+        title: title, // Replace with the actual data you want to post
+        image: imageUrL, // Assuming imageUrL contains the image URL
+        userid: ids,
+      };
+
+      await postPinMutation.mutateAsync(postData);
+
+      // Handle navigation or show success messages here
+    } catch (error) {
+      console.error("Upload error:", error);
+      // Handle error cases
+    }
+  };
+
 
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      base64:true,
+      base64: true,
       quality: 1,
     });
 
     if (!result.canceled) {
       const selectedImage = result.assets[0].uri;
-     // handleAlert();
-      const logs = await FileSystem.readAsStringAsync(selectedImage, {length});
-      console.log("FILES TO STRING", logs);
-
+      // handleAlert();
       console.log(selectedImage);
       setImages(selectedImage);
     }
   };
-
-
 
   return (
     // add to upload Image to Server
@@ -154,10 +126,9 @@ const imagefile = async () => {
         />
       )}
       <Text placeholder="Title.." value={title} onChangeText={setTitle}></Text>
-      <TextAreas onPress={imagefile}>Upload</TextAreas>
+      <TextAreas onPress={handleUpload}>Upload</TextAreas>
     </View>
   );
 };
-
 
 export default PinCreateScreen;

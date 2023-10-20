@@ -6,11 +6,13 @@ import {CameraCapture,ModalCamImage,PinHome,PinProfile} from "../../Main/index"
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import nhost from "../../apis/constNhost";
+import ThirdTab from "./third.Tabnavigation";
 
 const MainBottomNav:React.FC = () => {
   const Tabs = createBottomTabNavigator();
   const Stack = createStackNavigator();
   console.log('TBD',nhost);
+
     const Gallery = () => {
       return null;
     };
@@ -67,6 +69,7 @@ const MainBottomNav:React.FC = () => {
                 ),
               }}
             />
+            
           </Tabs.Navigator>
         );
 

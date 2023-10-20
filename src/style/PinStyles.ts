@@ -42,10 +42,8 @@ export const TextAreas = styled.Text`
 
 
 //Pin PROFILE
-export const Profile = styled.View`
-    flex-direction: column;
-    align-Items: center;
-    justify-Content: center;
+export const Profile = styled.ScrollView`
+    flex-grow:1;
 `;
 
 export const Profile2 = styled.View`
@@ -78,10 +76,6 @@ export const ProfileEmailText = styled.Text`
 
 export const Logout = styled.View`
   
-  margin-bottom: 20px;
-  margin-right: 20px;
-  top: 15px;
-  left: 175px;
 `;
 
 

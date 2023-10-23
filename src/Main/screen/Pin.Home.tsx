@@ -1,20 +1,21 @@
 import * as React from "react";
 import { ScrollView, Text, StyleSheet ,Alert} from "react-native";
 import MasonryList from "../../comps/MasonryList";
-import { NhostClient, NhostProvider } from "@nhost/react";
+import {  NhostProvider } from "@nhost/react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNhostClient } from "@nhost/react";
 import { usePinsQuery } from "../../Cache/imageFetch";
 import LottieLoad from "../../animated/loading";
 import {View,} from '../../style/MainStyles';
+import { useFocusEffect } from "@react-navigation/native";
 
 
 function PinHome() {
  
 // const [pins, setPins] = useState([]);
 const nhost = useNhostClient();
-  const {data:pins, isLoading, error} = usePinsQuery(nhost);
+  const {data:pins, isLoading,refetch} = usePinsQuery(nhost);
   const [Loadings, setIsLoadings] = useState(true);
   const [Loading,setIsLoading] =React.useState<boolean>(true);
 const [dataLoaded, setDataLoaded] = useState(false);
@@ -49,7 +50,12 @@ const [dataLoaded, setDataLoaded] = useState(false);
   // useEffect(() => {
   //   fetchPins();
   // }, []);
-
+useFocusEffect(
+  React.useCallback(() => {
+    // Refresh your data when the screen comes into focus
+    refetch();
+  }, [])
+);
   useEffect(() => {
     setTimeout(() => {
       // Replace this condition with your actual data loading logic

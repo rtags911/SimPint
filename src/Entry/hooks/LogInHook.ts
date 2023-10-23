@@ -21,11 +21,13 @@ export const LoginHooks = () => {
       const email = await AsyncStorage.getItem("email");
       const name = await AsyncStorage.getItem("Name");
       const profile = await AsyncStorage.getItem("Profile");
+      const ID = await AsyncStorage.getItem("userID"); 
       console.log("User:", user ? JSON.parse(user) : null);
       console.log("JWT:", jwt ? JSON.parse(jwt) : null);
       console.log("User Logged In:", userLoggedIn);
       console.log("Email:", email);
       console.log("Name:", name ? JSON.parse(name) : null);
+       console.log("UserID:", ID ? JSON.parse(ID) : null);
        console.log("Profile:", profile ? JSON.parse(profile) : null);
     } catch (error) {
       console.error("Error while logging AsyncStorage values:", error);

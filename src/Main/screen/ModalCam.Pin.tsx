@@ -73,6 +73,7 @@ const CaptureImage = async () => {
     
     } catch (error) {
       // Handle error if necessary
+       setModalVisible(false);
       console.error("Error uploading image:", error);
     }
   }

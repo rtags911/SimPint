@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import AuthService from "../../apis/useAuthContext";
 import { useNhostClient } from "@nhost/react";
 import Toast from "react-native-toast-message";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation ,StackActions} from "@react-navigation/native";
 
 export function useMainScreenHooks() {
   // Use the useAuthContext hook
@@ -51,9 +51,16 @@ export function useMainScreenHooks() {
 
         // Delay and navigate to the home screen after a successful logout
         setTimeout(() => {
+          
+          
+          navigation.reset({
+            index:0,
+            routes:[{name:"Welcome"}],
+          });
+
           navigation.navigate("Welcome");
            // Replace "Home" with your actual home screen name
-        }, 2000); // Delay for 2 seconds (adjust as needed)
+        }, 1000); // Delay for 2 seconds (adjust as needed)
       } else {
         // Logout failed
         console.error("Logout error: ", error);

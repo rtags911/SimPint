@@ -58,11 +58,11 @@ export const ProfileImage = styled.Image`
  width: 200px;
  height: 200px;
  border-radius: 125px;
- top:45px;
+ top:15px;
 `;
 
 export const ProfileText  = styled.Text`
-  padding-top: 50px;
+  padding-top: 25px;
   font-size: 20px;
   font-weight: bold;
 `;
@@ -75,7 +75,9 @@ export const ProfileEmailText = styled.Text`
 
 
 export const Logout = styled.View`
-  
+width:100%;
+align-items: flex-end;
+top:-20px;
 `;
 
 
@@ -96,8 +98,7 @@ export const LogoutButton = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
     border-radius: 25px;
-    justify-Content: center;
-    align-Items: center;
+    align-Items: flex-end;
 `;
 
 export const LogoutButton2 = styled.TouchableOpacity`

@@ -1,297 +1,139 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ListRenderItem, Alert,Text } from "react-native";
+import { Tabs } from "react-native-collapsible-tab-view";
 import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  Animated,
-} from "react-native";
-import { TabView, TabBar } from "react-native-tab-view";
+  Logout,
+  LogoutButton,
+  ProfileEmailText,
+  ProfileImage,
+  ProfileText,
+} from "../../style/PinStyles";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { useMainScreenHooks } from "../Hooks/MainScreens";
+import { NhostProvider, useNhostClient } from "@nhost/react";
+import Pin from "../../comps/screen_mains/Pin";
+import { useProfilePins } from "../../Cache/imageFetch";
+import useAuthContext from "../../apis/useAuthContext";
+import ProfPin from "../../comps/screen_mains/ProfPin";
 
-const TabBarHeight = 48;
-const HeaderHeight = 500;
-const tab1ItemSize = (Dimensions.get("window").width - 30) / 2;
-const tab2ItemSize = (Dimensions.get("window").width - 40) / 3;
+const HEADER_HEIGHT = 400;
 
-const TabScene = ({
-  numCols,
-  data,
-  renderItem,
-  onGetRef,
-  scrollY,
-  onScrollEndDrag,
-  onMomentumScrollEnd,
-  onMomentumScrollBegin,
-}:any) => {
-  const windowHeight = Dimensions.get("window").height;
+const DATA = [0, 1, 2, 3, 4];
 
+
+
+const Header = () => {
+
+  const { name, email, isLoading, url, handleLogout } = useMainScreenHooks();
   return (
-    <Animated.FlatList
-      scrollToOverflowEnabled={true}
-      numColumns={numCols}
-      ref={onGetRef}
-      scrollEventThrottle={16}
-      onScroll={Animated.event(
-        [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-        {
-          useNativeDriver: true,
-        }
-      )}
-      onMomentumScrollBegin={onMomentumScrollBegin}
-      onScrollEndDrag={onScrollEndDrag}
-      onMomentumScrollEnd={onMomentumScrollEnd}
-      ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      ListHeaderComponent={() => <View style={{ height: 10 }} />}
-      contentContainerStyle={{
-        paddingTop: HeaderHeight + TabBarHeight,
-        paddingHorizontal: 10,
-        minHeight: windowHeight - TabBarHeight,
-      }}
-      showsHorizontalScrollIndicator={false}
-      data={data}
-      renderItem={renderItem}
-      showsVerticalScrollIndicator={false}
-      keyExtractor={(item, index) => index.toString()}
-    />
-  );
-};
-
-const CollapsibleTabView = () => {
-  const [tabIndex, setIndex] = useState(0);
-  const [routes] = useState([
-    { key: "tab1", title: "Tab1" },
-    { key: "tab2", title: "Tab2" },
-  ]);
-  const [tab1Data] = useState(Array(40).fill(0));
-  const [tab2Data] = useState(Array(30).fill(0));
-  const scrollY = useRef(new Animated.Value(0)).current;
-  let listRefArr = useRef([]);
-  let listOffset = useRef({});
-  let isListGliding = useRef(false);
-
-  useEffect(() => {
-    scrollY.addListener(({ value }) => {
-      const curRoute = routes[tabIndex].key;
-      listOffset.current[curRoute] = value;
-    });
-    return () => {
-      scrollY.removeAllListeners();
-    };
-  }, [routes, tabIndex]);
-
-  const syncScrollOffset = () => {
-    const curRouteKey = routes[tabIndex].key;
-    listRefArr.current.forEach((item) => {
-      if (item.key !== curRouteKey) {
-        if (scrollY._value < HeaderHeight && scrollY._value >= 0) {
-          if (item.value) {
-            item.value.scrollToOffset({
-              offset: scrollY._value,
-              animated: false,
-            });
-            listOffset.current[item.key] = scrollY._value;
-          }
-        } else if (scrollY._value >= HeaderHeight) {
-          if (
-            listOffset.current[item.key] < HeaderHeight ||
-            listOffset.current[item.key] == null
-          ) {
-            if (item.value) {
-              item.value.scrollToOffset({
-                offset: HeaderHeight,
-                animated: false,
-              });
-              listOffset.current[item.key] = HeaderHeight;
-            }
-          }
-        }
-      }
-    });
-  };
-
-  const onMomentumScrollBegin = () => {
-    isListGliding.current = true;
-  };
-
-  const onMomentumScrollEnd = () => {
-    isListGliding.current = false;
-    syncScrollOffset();
-  };
-
-  const onScrollEndDrag = () => {
-    syncScrollOffset();
-  };
-
-  const renderHeader = () => {
-    const y = scrollY.interpolate({
-      inputRange: [0, HeaderHeight],
-      outputRange: [0, -HeaderHeight],
-      extrapolateRight: "clamp",
-    });
-    return (
-      <Animated.View
-        style={[styles.header, { transform: [{ translateY: y }] }]}
-      >
-        <Text>{"Header"}</Text>
-      </Animated.View>
-    );
-  };
-
-  const rednerTab1Item = ({ item, index }:any) => {
-    return (
-      <View
-        style={{
-          borderRadius: 16,
-          marginLeft: index % 2 === 0 ? 0 : 10,
-          width: tab1ItemSize,
-          height: tab1ItemSize,
-          backgroundColor: "#aaa",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text>{index}</Text>
-      </View>
-    );
-  };
-
-  const rednerTab2Item = ({ item, index }:any) => {
-    return (
-      <View
-        style={{
-          marginLeft: index % 3 === 0 ? 0 : 10,
-          borderRadius: 16,
-          width: tab2ItemSize,
-          height: tab2ItemSize,
-          backgroundColor: "#aaa",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Text>{index}</Text>
-      </View>
-    );
-  };
-
-  const renderLabel = ({ route, focused }:any) => {
-    return (
-      <Text style={[styles.label, { opacity: focused ? 1 : 0.5 }]}>
-        {route.title}
-      </Text>
-    );
-  };
-
-  const renderScene = ({ route }:any) => {
-    const focused = route.key === routes[tabIndex].key;
-    let numCols;
-    let data;
-    let renderItem;
-    switch (route.key) {
-      case "tab1":
-        numCols = 2;
-        data = tab1Data;
-        renderItem = rednerTab1Item;
-        break;
-      case "tab2":
-        numCols = 3;
-        data = tab2Data;
-        renderItem = rednerTab2Item;
-        break;
-      default:
-        return null;
-    }
-    return (
-      <TabScene
-        numCols={numCols}
-        data={data}
-        renderItem={renderItem}
-        scrollY={scrollY}
-        onMomentumScrollBegin={onMomentumScrollBegin}
-        onScrollEndDrag={onScrollEndDrag}
-        onMomentumScrollEnd={onMomentumScrollEnd}
-        onGetRef={(ref) => {
-          if (ref) {
-            const found = listRefArr.current.find((e) => e.key === route.key);
-            if (!found) {
-              listRefArr.current.push({
-                key: route.key,
-                value: ref,
-              });
-            }
-          }
-        }}
+    <View style={styles.header}>
+      <Logout>
+        <LogoutButton onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={45} />
+        </LogoutButton>
+      </Logout>
+      <ProfileImage
+        source={url ? { uri: url } : require("../../../assets/Image/dota2.jpg")}
       />
-    );
-  };
 
-  const renderTabBar = (props:any) => {
-    const y = scrollY.interpolate({
-      inputRange: [0, HeaderHeight],
-      outputRange: [HeaderHeight, 0],
-      extrapolateRight: "clamp",
-    });
-    return (
-      <Animated.View
-        style={{
-          top: 0,
-          zIndex: 1,
-          position: "absolute",
-          transform: [{ translateY: y }],
-          width: "100%",
-        }}
-      >
-        <TabBar
-          {...props}
-          onTabPress={({ route, preventDefault }) => {
-            if (isListGliding.current) {
-              preventDefault();
-            }
-          }}
-          style={styles.tab}
-          renderLabel={renderLabel}
-          indicatorStyle={styles.indicator}
-        />
-      </Animated.View>
-    );
-  };
-
-  const renderTabView = () => {
-    return (
-      <TabView
-        onIndexChange={(index) => setIndex(index)}
-        navigationState={{ index: tabIndex, routes }}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-        initialLayout={{
-          height: 0,
-          width: Dimensions.get("window").width,
-        }}
-      />
-    );
-  };
-
-  return (
-    <View style={{ flex: 1 }}>
-      {renderTabView()}
-      {renderHeader()}
+      <ProfileText>{isLoading ? "Loading..." : name}</ProfileText>
+      <ProfileEmailText>{isLoading ? "Loading..." : email}</ProfileEmailText>
     </View>
   );
 };
 
+const Example: React.FC = () => {
+const nhost = useNhostClient();
+const userid = nhost.auth.getUser()?.id;
+
+const [pinsData, setPinsData] = useState([]); // State variable to hold the pins data
+const [isLoading, setIsLoading] = useState(true);
+const [dataLoaded, setDataLoaded] = useState(false);
+const [Loadings, setIsLoadings] = useState(true);
+ 
+  console.log("ID",userid);
+  console.log("LOGCHECK",pinsData);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const pins = await useProfilePins(userid);
+        console.log("LOGCHECK1", pins);
+
+        if (pins) {
+          // Store the fetched pins data in the state variable
+          setPinsData(pins);
+        }
+
+        setIsLoading(false);
+        setDataLoaded(true);
+      } catch (error) {
+        setIsLoading(false);
+        Alert.alert("Data Loading Error", "Data couldn't be loaded.", [
+          { text: "OK", onPress: () => setIsLoading(false) },
+        ]);
+      }
+    };
+
+    fetchData();
+  }, [userid]);
+
+  const renderItem: ListRenderItem<number> = React.useCallback(({ index }) => {
+    return (
+      <View style={[styles.box, index % 2 === 0 ? styles.boxB : styles.boxA]} />
+    );
+  }, []);
+
+  return (
+    <NhostProvider nhost={nhost}>
+      <Tabs.Container
+        renderHeader={Header}
+        headerHeight={HEADER_HEIGHT}
+        snapThreshold={1}
+        allowHeaderOverscroll
+        lazy
+        
+      >
+        <Tabs.Tab name="Create">
+          <Tabs.MasonryFlashList
+            data={pinsData} // Use the state variable to render the pins data
+            numColumns={2}
+            renderItem={({ item }) => <ProfPin pins={item} />}
+            estimatedItemSize={200}
+            disableAutoLayout={true}
+            snapToAlignment="start"
+          />
+        </Tabs.Tab>
+        <Tabs.Tab name="Pinned">
+          <Tabs.ScrollView>
+            <View style={[styles.box, styles.boxA]} />
+            <View style={[styles.box, styles.boxB]} />
+          </Tabs.ScrollView>
+        </Tabs.Tab>
+      </Tabs.Container>
+    </NhostProvider>
+  );
+};
+
 const styles = StyleSheet.create({
-  header: {
-    top: 0,
-    height: HeaderHeight,
+  box: {
+    height: 250,
     width: "100%",
-    backgroundColor: "#40C4FF",
+  },
+  boxA: {
+    backgroundColor: "white",
+  },
+  boxB: {
+    backgroundColor: "#D8D8D8",
+  },
+  header: {
+    height: HEADER_HEIGHT,
+    width: "100%",
+    alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
-    position: "absolute",
+    backgroundColor: "#fff",
   },
-  label: { fontSize: 16, color: "#222" },
-  tab: { elevation: 0, shadowOpacity: 0, backgroundColor: "#FFCC80" },
-  indicator: { backgroundColor: "#222" },
 });
 
-export default CollapsibleTabView;
+export default Example;

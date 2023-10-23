@@ -2,6 +2,7 @@ import { useQuery,useMutation } from "react-query";
 import { useNhostClient } from "@nhost/react";
 import axios from "axios";
 import { BASE_URL } from "../consts/Base";
+
 const Url = `${BASE_URL}`;
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -16,6 +17,18 @@ export const usePinsQuery = (nhost:any) => {
   return useQuery("pins", () => fetchPins(nhost));
 };
 
+export const useProfilePins = async(userId:any) => {
+    const apiUrl = `${Url}/userpinprof?userid=${userId}`;
+    const response = await axios.get(apiUrl);
+    console.log("ID", userId);
+    console.log("QUERY",response);
+
+    const data = response.data.pins;
+    
+     console.log("QUERY", response); 
+    return data;
+  
+};
 
 export const fetchUserPins = async (userid: string) => {
   const apiUrl = `${Url}/userprof?userid=${userid}`;
@@ -44,26 +57,21 @@ const response = await axios.get(apiUrl);
 }
 
 
-export const postPin = async (data:string) => {
-  const apiUrl = `${Url}/your-post-endpoint`; // Replace with the actual API endpoint
-  const response = await axios.post(apiUrl, data);
-  return response.data; // Assuming the response contains the posted data or a success message
-};
+export const uploadPin = async (data: any) => {
+   const apiUrl = `${Url}/upload`;
+   const response = await axios.post(apiUrl,data);
 
-export const usePostPinMutation = () => {
-  return useMutation(postPin, {
-    onMutate: (newData) => {
-      // You can perform some actions before the mutation, e.g., optimistic updates
-      // For example, updating the UI with the new data before the request is complete.
-      // You can access the `newData` you're trying to post here.
-    },
-    onSuccess: () => {
-      // This function is called if the mutation is successful
-      // You can perform actions, show notifications, or navigate to another screen here.
-    },
-    onError: (error) => {
-      // Handle errors here, e.g., show an error message to the user.
-      console.error("Mutation error:", error);
-    },
-  });
+  try {
+   
+    if (response.status === 200) {
+      // Upload was successful, return a success message
+      return "Successful";
+    } else {
+      // Handle other status codes if needed
+      return "Error";
+    }
+  } catch (error) {
+    console.log("HOOKS",response.status)
+    throw error;
+  }
 };

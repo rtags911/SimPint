@@ -31,7 +31,7 @@ class AuthService {
   }
 
   async getUserId() {
-    const userid = await AsyncStorage.getItem("userId");
+    const userid = await AsyncStorage.getItem("userID");
     return userid;
   }
 

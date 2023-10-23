@@ -10,17 +10,22 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../apis/Firebaseconfig";
 import useAuthContext from "../../apis/useAuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { uploadPin } from "../../Cache/imageFetch";
+import { useMutation, useQueryClient } from "react-query";
 
 const PinCreateScreen = ({ route }: any) => {
   const navigation = useNavigation();
   const image = route.params.Images;
-
+  const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [Images, setImages] = useState(image);
 
   const [imageUrL, setImageUrl] = useState("");
   const [file, setfile] = useState<File | null>();
   const { isError, isUploaded, upload } = useFileUpload();
+  const [userId, setIDuser] = useState<string | null>("");
+
+
 
   const imagefile = async () => {
     // Assuming that 'image' is defined somewhere in your code
@@ -49,46 +54,32 @@ const PinCreateScreen = ({ route }: any) => {
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           console.log("Completed", downloadURL);
           // Assuming setImageUrl is a function to set the image URL
-          setImageUrl(downloadURL);
+          const encodedUrl = await downloadURL.replace(/Images\//g, "Images%2F");
+          console.log("Completed EDITED", encodedUrl);
+          setImageUrl(encodedUrl);
         });
       }
     );
   };
 
-  const handleUpload = async () => {
-    const ids = await useAuthContext.getUserId();
-    await imagefile();
-
-    console.log("test", title, " + user ID = ", ids, " + Url = ", imageUrL);
-
-    const apIUrl =
-      "https://kwivsrhgpywxqalkwedn.hasura.ap-southeast-1.nhost.run/api/rest/upload?title=&image=&userid=";
-
-    const response = await axios.post(apIUrl);
-    if (response.statusText === "OK") {
-      Alert.alert("Pin Created Successfully");
-      navigation.navigate("Home");
-    } else {
-      Alert.alert("Pin Created Failed To Create");
-      console.log(response);
-    }
-  };
-
-
   const handleUploads = async () => {
     try {
       const ids = await useAuthContext.getUserId();
+      setIDuser(ids);
       await imagefile();
 
       console.log("test", title, " + user ID = ", ids, " + Url = ", imageUrL);
 
-      const postData = {
-        title: title, // Replace with the actual data you want to post
-        image: imageUrL, // Assuming imageUrL contains the image URL
+      const data = {
         userid: ids,
+        title: title,
+        image: imageUrL,
       };
 
-      await postPinMutation.mutateAsync(postData);
+      // Trigger the mutation
+      await mutate(data);
+
+      console.log("pin created successfully");
 
       // Handle navigation or show success messages here
     } catch (error) {
@@ -98,6 +89,20 @@ const PinCreateScreen = ({ route }: any) => {
   };
 
 
+      const { mutate } = useMutation("uploadPin", uploadPin, {
+        onSuccess: (data) => {
+          if (data === "Successful") {
+            // Handle the success case here
+            console.log("Upload was successful");
+            queryClient.invalidateQueries("homeQuery");
+            navigation.navigate("Home");
+          } else {
+            // Handle the error case here
+            console.log("Upload failed");
+            // You can show an error message or take appropriate action
+          }
+        },
+      });
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -126,7 +131,7 @@ const PinCreateScreen = ({ route }: any) => {
         />
       )}
       <Text placeholder="Title.." value={title} onChangeText={setTitle}></Text>
-      <TextAreas onPress={handleUpload}>Upload</TextAreas>
+      <TextAreas onPress={handleUploads}>Upload</TextAreas>
     </View>
   );
 };

@@ -8,7 +8,7 @@ interface ImageTitle {
     id: string;
     image: string;
     title: string;
-    userid:string;
+    user_id:string;
   };
   // 👈️ for demo purposes
 }
@@ -21,8 +21,8 @@ const ProfPin:React.FC<ImageTitle> = ({pins}) => {
 
   const navigation = useNavigation();
 
-const { id,title, image ,userid} = pins;
-
+const { id,title, image ,user_id} = pins;
+  
   const [ratio, setRatio] = useState(1);
 
 
@@ -40,7 +40,8 @@ const { id,title, image ,userid} = pins;
         id: pins.id,
         title: pins.title,
         images: pins.image,
-        userid:pins.userid,
+        userid:pins.user_id,
+
       });
     }
 

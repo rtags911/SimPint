@@ -12,9 +12,10 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useMainScreenHooks } from "../Hooks/MainScreens";
 import { NhostProvider, useNhostClient } from "@nhost/react";
 import Pin from "../../comps/screen_mains/Pin";
-import { useProfilePins } from "../../Cache/imageFetch";
+import { usePinsQuery, useProfilePins } from "../../Cache/imageFetch";
 import useAuthContext from "../../apis/useAuthContext";
 import ProfPin from "../../comps/screen_mains/ProfPin";
+import { useFocusEffect } from "@react-navigation/native";
 
 const HEADER_HEIGHT = 400;
 
@@ -45,44 +46,43 @@ const Header = () => {
 const Example: React.FC = () => {
 const nhost = useNhostClient();
 const userid = nhost.auth.getUser()?.id;
+const { data: pins, isLoading, refetch } = usePinsQuery(nhost);
 
 const [pinsData, setPinsData] = useState([]); // State variable to hold the pins data
-const [isLoading, setIsLoading] = useState(true);
+const [isLoadings, setIsLoading] = useState(true);
 const [dataLoaded, setDataLoaded] = useState(false);
 const [Loadings, setIsLoadings] = useState(true);
  
   console.log("ID",userid);
   console.log("LOGCHECK",pinsData);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const pins = await useProfilePins(userid);
-        console.log("LOGCHECK1", pins);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          
+          console.log("LOGCHECK1", pins);
 
-        if (pins) {
-          // Store the fetched pins data in the state variable
-          setPinsData(pins);
+          if (pins) {
+            // Store the fetched pins data in the state variable
+            setPinsData(pins);
+          }
+
+
+
+          setIsLoading(false);
+          setDataLoaded(true);
+        } catch (error) {
+          setIsLoading(false);
+          Alert.alert("Data Loading Error", "Data couldn't be loaded.", [
+            { text: "OK", onPress: () => setIsLoading(false) },
+          ]);
         }
+      };
 
-        setIsLoading(false);
-        setDataLoaded(true);
-      } catch (error) {
-        setIsLoading(false);
-        Alert.alert("Data Loading Error", "Data couldn't be loaded.", [
-          { text: "OK", onPress: () => setIsLoading(false) },
-        ]);
-      }
-    };
-
-    fetchData();
-  }, [userid]);
-
-  const renderItem: ListRenderItem<number> = React.useCallback(({ index }) => {
-    return (
-      <View style={[styles.box, index % 2 === 0 ? styles.boxB : styles.boxA]} />
-    );
-  }, []);
+      fetchData();
+    }, [userid])
+  );
 
   return (
     <NhostProvider nhost={nhost}>

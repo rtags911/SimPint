@@ -1,7 +1,7 @@
 import { Alert, Platform } from "react-native";
 import { Image, View, Text, TextAreas } from "../../style/PinStyles";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
 import * as ImagePicker from "expo-image-picker";
 
 import * as FileSystem from "expo-file-system";
@@ -12,6 +12,7 @@ import useAuthContext from "../../apis/useAuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { uploadPin } from "../../Cache/imageFetch";
 import { useMutation, useQueryClient } from "react-query";
+import z from "zod";
 
 const PinCreateScreen = ({ route }: any) => {
   const navigation = useNavigation();
@@ -19,10 +20,6 @@ const PinCreateScreen = ({ route }: any) => {
   const queryClient = useQueryClient();
   const [title, setTitle] = useState("");
   const [Images, setImages] = useState(image);
-
-  const [imageUrL, setImageUrl] = useState("");
-  const [file, setfile] = useState<File | null>();
-  const { isError, isUploaded, upload } = useFileUpload();
   const [userId, setIDuser] = useState<string | null>("");
 
 
@@ -56,36 +53,22 @@ const PinCreateScreen = ({ route }: any) => {
           // Assuming setImageUrl is a function to set the image URL
           const encodedUrl = await downloadURL.replace(/Images\//g, "Images%2F");
           console.log("Completed EDITED", encodedUrl);
-          setImageUrl(encodedUrl);
+          
+
+          const ids = await useAuthContext.getUserId();
+          setIDuser(ids);
+
+      console.log("test", title, " + user ID = ", ids, " + Url = ", encodedUrl);
+            const data = {
+              userid: ids,
+              title: title,
+              image: encodedUrl,
+            };
+            await mutate(data);
+
         });
       }
     );
-  };
-
-  const handleUploads = async () => {
-    try {
-      const ids = await useAuthContext.getUserId();
-      setIDuser(ids);
-      await imagefile();
-
-      console.log("test", title, " + user ID = ", ids, " + Url = ", imageUrL);
-
-      const data = {
-        userid: ids,
-        title: title,
-        image: imageUrL,
-      };
-
-      // Trigger the mutation
-      await mutate(data);
-
-      console.log("pin created successfully");
-
-      // Handle navigation or show success messages here
-    } catch (error) {
-      console.error("Upload error:", error);
-      // Handle error cases
-    }
   };
 
 
@@ -98,11 +81,14 @@ const PinCreateScreen = ({ route }: any) => {
             navigation.navigate("Home");
           } else {
             // Handle the error case here
+            Alert.alert("Upload failed");
+            
             console.log("Upload failed");
             // You can show an error message or take appropriate action
           }
         },
       });
+
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -119,6 +105,7 @@ const PinCreateScreen = ({ route }: any) => {
     }
   };
 
+
   return (
     // add to upload Image to Server
     <View>
@@ -131,7 +118,7 @@ const PinCreateScreen = ({ route }: any) => {
         />
       )}
       <Text placeholder="Title.." value={title} onChangeText={setTitle}></Text>
-      <TextAreas onPress={handleUploads}>Upload</TextAreas>
+      <TextAreas onPress={imagefile}>Upload</TextAreas>
     </View>
   );
 };

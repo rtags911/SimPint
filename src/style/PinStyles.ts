@@ -137,17 +137,18 @@ export const PinScreenImage = styled.Image`
     borderTopLeftRadius: 50px;
     borderTopRightRadius: 50px;
 `;
-
+export const Views = styled.View`
+  alignitems: center;
+  justifycontent: center;
+  position: absolute;
+  left: 15px;
+  top: 30px;
+`;
 export const PinScreenButton = styled.TouchableOpacity`
     width: 40px;
     height: 40px;
     border-radius: 50px;
     backgroundColor: rgba(0, 0, 0, 0.5);
-    alignItems: center;
-    justifyContent: center;
-    position: absolute;
-    left:15px;
-    top:10px;
     `;
 
 

@@ -71,7 +71,7 @@ export default Pin;
      pin: {
        width: "100%",
        padding: 4,
-
+      
      },
      title: {
        fontSize: 16,

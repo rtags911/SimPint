@@ -56,6 +56,8 @@ useFocusEffect(
     refetch();
   }, [])
 );
+
+
   useEffect(() => {
     setTimeout(() => {
       // Replace this condition with your actual data loading logic

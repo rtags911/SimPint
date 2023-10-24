@@ -6,8 +6,8 @@ declare global {
     interface RootParamList
       extends RootStackParamList,
         EntryStackParamList,
-        MainBottomParamList,
-        ThirdTopParamList {}
+        MainBottomParamList{}
+        
   }
 }
 
@@ -15,8 +15,6 @@ declare global {
 export type RootStackParamList = {
   Entry: NavigatorScreenParams<EntryStackParamList> | undefined;
   Main: NavigatorScreenParams<MainBottomParamList> | undefined;
-  Third:NavigatorScreenParams<ThirdTopParamList> | undefined;
- 
 }
 export type EntryStackParamList = {
   Login: undefined;
@@ -28,6 +26,7 @@ export type EntryStackParamList = {
   CreatePinScreen: { Images: string } | undefined;
   UserProfile: { UserId: string } | undefined;
   TopNav: undefined;
+  Header: { id: string; images: string; title: string }| undefined;
 };
 
 
@@ -37,11 +36,5 @@ export type MainBottomParamList = {
   Welcome: undefined;
 };
 
-
-
-export type ThirdTopParamList = {
-  Create: undefined;
-  Pinned: undefined;
-};
 
 

@@ -57,9 +57,23 @@ const response = await axios.get(apiUrl);
 }
 
 
-export const uploadPin = async (data: any) => {
-   const apiUrl = `${Url}/upload`;
-   const response = await axios.post(apiUrl,data);
+export const uploadPin = async (data:any) => {
+  console.log("yesterday",data);
+  const stringWithQuotes = data.userid;
+
+  const uuid = await stringWithQuotes.replace(/^"|"$/g, "");
+  console.log("uuid",uuid);
+
+
+  const url = data.image;
+  const imageUrl = await url.split("&token")[0];
+   const encodedUrl = await encodeURIComponent(imageUrl.replace(/Images\//g, "Images%2F"));
+
+   const apiUrl = `${Url}/upload?userid=${uuid}&image=${encodedUrl}&title=${data.title}`;
+    console.log("response", apiUrl);
+
+   const response = await axios.post(apiUrl);
+ 
 
   try {
    
@@ -75,3 +89,5 @@ export const uploadPin = async (data: any) => {
     throw error;
   }
 };
+
+

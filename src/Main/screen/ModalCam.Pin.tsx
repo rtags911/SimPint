@@ -29,6 +29,15 @@ const ModalCamImage = () => {
   const [image, setImage] = useState<string>("default-image-url");
   const { hasPermission, requestPermission } = useCameraPermission();
 
+
+  useEffect(() => {
+    if (image) {
+      setModalVisible(false); // Open the modal when there are Images
+      setImage(image);
+    }
+  }, [image]);
+
+
   useEffect(() => {
     (async () => {
       const CamhasPermission = await Camera.requestCameraPermission();
@@ -80,6 +89,7 @@ const CaptureImage = async () => {
 };
 
   return (
+    
     <>
       <View style={styles.position}>
         <Button
@@ -103,6 +113,7 @@ const CaptureImage = async () => {
           }
         />
       </View>
+
 
       <View>
         <Modal
